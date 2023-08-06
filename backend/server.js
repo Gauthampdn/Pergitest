@@ -5,7 +5,7 @@ const express = require('express')
 // express app
 const app = express()
 
-// middleware
+// middleware to console log what the req.path is and the method like "/ GET""
 app.use((req, res, next) => {
   console.log(req.path, req.method)
   next()
