@@ -1,22 +1,44 @@
-require('dotenv').config()
 
-const express = require('express')
+// environment vars
+require("dotenv").config()
+
+
+const express = require("express")
+const mongoose = require("mongoose")
+const workoutRoutes = require("./routes/workouts")
+const userRoutes = require("./routes/user")
+const cors = require('cors');
 
 // express app
 const app = express()
 
-// middleware to console log what the req.path is and the method like "/ GET""
-app.use((req, res, next) => {
-  console.log(req.path, req.method)
+app.use(cors());
+
+
+// middleware
+app.use(express.json()) // to get req body
+
+app.use( (req, res, next) => {
+  console.log(req.method, req.path)
   next()
-})
+} )
 
-// routes
-app.get('/', (req, res) => {
-  res.json({mssg: 'Welcome to the app'})
-})
+//routes
+app.use("/api/workouts", workoutRoutes)
+app.use("/api/user", userRoutes)
 
-// listen for requests
-app.listen(process.env.PORT, () => {
-  console.log('listening on port', process.env.PORT)
-})
+// connect to db
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(process.env.PORT, ()=>{
+      console.log("connected to DB and listening on port 4000");
+    })
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+
+
+
+// listening on port 
+
