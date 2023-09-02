@@ -46,7 +46,9 @@ const TemplateDetails = ({ template, onDeleted }) => {
     });
   };
 
-  const handleConcatenateAndLog = () => {
+
+  
+  const handleConcatenateAndLog = async () => {
     let concatenatedText = '';
     template.template.forEach((item, index) => {
       switch (item.type) {
@@ -64,10 +66,27 @@ const TemplateDetails = ({ template, onDeleted }) => {
           break;
       }
     });
-    console.log(concatenatedText.trim());
-    setConcatenatedStrings(prevStrings => [...prevStrings, concatenatedText.trim()]);
-    
+
+    // Save the concatenated string to the backend
+    const newConvo = { prompt: "Your prompt here", response: concatenatedText.trim() }; // Adjust the prompt as needed
+    const response = await fetch(`https://pergiv0-1backend.onrender.com/api/templates/${template._id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${user.token}`
+      },
+      body: JSON.stringify({ convos: [...template.convos, newConvo] })
+    });
+
+    if (response.ok) {
+      const updatedTemplate = await response.json();
+      dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
+      setConcatenatedStrings(prevStrings => [...prevStrings, concatenatedText.trim()]);
+    } else {
+      console.error("Failed to save convo");
+    }
   };
+
 
   return (
     <div className="template-container">
@@ -122,6 +141,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
           <ReactMarkdown key={index} children={str} />
         ))}
       </div>
+
 
 
     </div>

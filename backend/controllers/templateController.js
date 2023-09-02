@@ -35,7 +35,7 @@ const getTemplate = async (req, res) => {
 // create a new template
 
 const createTemplate = async (req, res) => {
-  const { title, description, image, icon, template } = req.body;
+  const { title, description, image, icon, template, convos } = req.body;
 
   let emptyFields = [];
 
@@ -59,6 +59,7 @@ const createTemplate = async (req, res) => {
       image,
       icon,
       template,
+      convos,
       user_id
     });
 
@@ -92,25 +93,28 @@ const deleteTemplate = async (req, res) => {
 
 
 const updateTemplate = async (req, res) => {
-
-  const {id} = req.params
+  const {id} = req.params;
 
   if(!mongoose.Types.ObjectId.isValid(id)){
-    return res.status(404).json({error: "No such Template and invalid ID"})
+    return res.status(404).json({error: "No such Template and invalid ID"});
   }
 
-
-  const template = await Template.findOneAndUpdate({ _id: id}, {
-    ...req.body
-  })
-
-  if(!template){
-    return res.status(404).json({error: "No such Template"})
+  const existingTemplate = await Template.findById(id);
+  if(!existingTemplate){
+    return res.status(404).json({error: "No such Template"});
   }
 
-  res.status(200).json(template)
+  const updatedConvos = [...existingTemplate.convos, ...req.body.convos];
+  const updatedTemplateData = {
+    ...req.body,
+    convos: updatedConvos
+  };
 
-}
+  const updatedTemplate = await Template.findByIdAndUpdate(id, updatedTemplateData, { new: true });
+
+  res.status(200).json(updatedTemplate);
+};
+
 
 
 module.exports = {
