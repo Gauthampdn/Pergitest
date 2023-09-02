@@ -1,4 +1,5 @@
 const User = require("../models/userModel")
+const Template = require("../models/templateModel"); // Adjust the path if needed
 const jwt = require("jsonwebtoken")
 const defaultTemplates = require('./DefaultTemplates');
 
