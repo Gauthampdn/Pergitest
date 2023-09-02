@@ -140,6 +140,22 @@ header a {
 }
 
 
+.concatenated-box span {
+  top: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  color: #333;
+  transition: color 0.1s ease-in;
+
+}
+
+.concatenated-box span:hover {
+  color: var(--error);
+}
+
+
+
+
 
 label, input {
   display: block;
@@ -276,3 +292,4 @@ form.create {
   max-width: 10%; /* ensures the image doesn't overflow the form's width */
   height: auto; /* maintains the image's aspect ratio */
 }
+

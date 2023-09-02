@@ -112,12 +112,35 @@ const TemplateDetails = ({ template, onDeleted }) => {
   
 
 
+
   const handleConcatenateAndLog = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     const concatenatedText = concatenateText();
     await updateConvo(concatenatedText);
     setIsSubmitting(false);
+  };
+
+
+
+  const handleResetConvo = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`https://pergiv0-1backend.onrender.com/api/templates/${template._id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${user.token}`
+      },
+      body: JSON.stringify({ convos: [] })
+    });
+  
+    if (response.ok) {
+      const updatedTemplate = await response.json();
+      dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
+      setConcatenatedStrings([]);
+    } else {
+      console.error("Failed to save convo");
+    }
   };
   
 
@@ -171,9 +194,11 @@ const TemplateDetails = ({ template, onDeleted }) => {
       </div>
 
       <div className="concatenated-box">
+      <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
         {concatenatedStrings.map((str, index) => (
           <ReactMarkdown key={index} children={str} />
         ))}
+
       </div>
 
 

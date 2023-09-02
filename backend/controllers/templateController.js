@@ -104,16 +104,15 @@ const updateTemplate = async (req, res) => {
     return res.status(404).json({error: "No such Template"});
   }
 
-  const updatedConvos = [...existingTemplate.convos, ...req.body.convos];
   const updatedTemplateData = {
-    ...req.body,
-    convos: updatedConvos
+    ...req.body
   };
 
   const updatedTemplate = await Template.findByIdAndUpdate(id, updatedTemplateData, { new: true });
 
   res.status(200).json(updatedTemplate);
 };
+
 
 
 
