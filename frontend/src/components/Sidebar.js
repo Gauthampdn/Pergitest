@@ -1,10 +1,10 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow"
 
-const Sidebar = ({ workout, onClick }) => {
+const Sidebar = ({ template, onClick }) => {
   return (
     <div className="side-details" onClick={onClick}>
-      <h4>{workout.title}</h4>
-      <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
+      <h4>{template.title}</h4>
+      <p>used {formatDistanceToNow(new Date(template.createdAt), { addSuffix: true })}</p>
     </div>
   );
 }

@@ -13,6 +13,10 @@
       "context" : "lorem ipsum"
     },
     {
+      "type" : "textbox",
+      "context" : "lorem ipsum"
+    },
+    {
       "type" : "selector",
       "context" : ["easy", "medium", "hard"]
     }

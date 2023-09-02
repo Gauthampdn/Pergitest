@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react"
-import { useWorkoutsContext } from "../hooks/useWorkoutsContext"
+import { useTemplatesContext } from "../hooks/useTemplatesContext"
 import { useAuthContext } from "../hooks/useAuthContext"
 
 // components
-import WorkoutDetails from "../components/WorkoutDetails"
+import TemplateDetails from "../components/TemplateDetails"
 import Sidebar from "../components/Sidebar"
 
 const Home = () => {
-  const { workouts, dispatch } = useWorkoutsContext()
+  const { templates, dispatch } = useTemplatesContext()
   const { user } = useAuthContext()
-  const [currWorkout, setCurrWorkout] = useState(null)
+  const [currTemplate, setCurrTemplate] = useState(null)
 
 
   useEffect(() => {
-    const fetchWorkouts = async () => {
-      const response = await fetch('https://mernworkout.onrender.com/api/workouts', {
+    const fetchTemplates = async () => {
+      const response = await fetch('https://pergiv0-1backend.onrender.com/api/templates', {
         headers: {
           "Authorization": `Bearer ${user.token}`
         }
@@ -22,30 +22,36 @@ const Home = () => {
       const json = await response.json()
 
       if (response.ok) {
-        dispatch({ type: 'SET_WORKOUTS', payload: json })
+        dispatch({ type: 'SET_TEMPLATES', payload: json })
       }
+
     }
 
     if (user) {
-      fetchWorkouts()
+      fetchTemplates()
     }
   }, [dispatch, user])
+
+
 
   return (
     <div className="home">
       <div className="side">
-        {workouts && workouts.map(workout => (
+        {templates && templates.map(template => (
           <Sidebar
-            workout={workout}
-            key={workout._id}
-            onClick={() => setCurrWorkout(workout)} // Set the current workout when clicked
+            template={template}
+            key={template._id}
+            onClick={() => setCurrTemplate(template)} // Set the current template when clicked
           />
-        ))}
+          
+        )
+        )}
       </div>
 
-      <div className="workouts">
-        {currWorkout && <WorkoutDetails workout={currWorkout} onDeleted={() => setCurrWorkout(null)} />}
+      <div className="templates">
+        {currTemplate && <TemplateDetails template={currTemplate} onDeleted={() => setCurrTemplate(null)} />}
       </div>
+
     </div>
   )
 }

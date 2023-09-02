@@ -1,8 +1,8 @@
-import WorkoutForm from "../components/WorkoutForm";
+import TemplateForm from "../components/TemplateForm";
 
 const Create = () => {
   return ( 
-      <WorkoutForm/>
+      <TemplateForm/>
    );
 }
  

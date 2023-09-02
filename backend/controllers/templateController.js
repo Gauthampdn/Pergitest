@@ -3,14 +3,25 @@ const Template = require("../models/templateModel")
 
 // get all templates
 
-const getTemplates = async (req, res) => {  // DONE
+const getTemplates = async (req, res) => {
 
-  const user_id = req.user._id
+  const user_id = req.user._id;
 
-  const templates = await Template.find({user_id}).sort({createdAt: -1})
+  // Define the IDs you always want to include
+  const alwaysIncludeIds = [
+    mongoose.Types.ObjectId("64f2b4688a8c5d7413766ade"),
+    mongoose.Types.ObjectId("64f2b4688a8c5d7413766adf")
+  ];
 
+  // Modify the query to either match the user_id or one of the alwaysIncludeIds
+  const templates = await Template.find({
+    $or: [
+      { user_id },
+      { _id: { $in: alwaysIncludeIds } }
+    ]
+  }).sort({ createdAt: -1 });
 
-  res.status(200).json(templates)
+  res.status(200).json(templates);
 }
 
 // get a single template

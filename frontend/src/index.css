@@ -8,11 +8,16 @@
   --secondary: #4869ff;
   --error: #e7195a;
 }
+
 body {
   background: #f1f1f1;
   margin: 0;
-  font-family: "Rubik";
+  font-family: "Rubik";  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
+
+
 header {
   background: #fff;
   
@@ -40,14 +45,14 @@ header a {
 .side {
   width: 15%; /* Adjust as needed */
   height: 100vh;
-  background-color: #f7f7f7; /* Light gray */
+  background-color: #f1f1f1; /* Light gray */
   float: left;
 }
 
-.workouts {
+.templates {
   width: 85%;
   height: 100vh;
-  background-color: #f7f7f7; /* Light gray */
+  background-color: #f1f1f1; /* Light gray */
   float: right;
 }
 
@@ -55,10 +60,12 @@ header a {
 
 
 .side-details {
-  background: #fff;
+  background: #f1f1f1;
   padding: 10px;    
   padding-left: 20px;
   position: relative;
+    cursor: pointer;
+
   transition: background ease-in-out 0.3s;
 }
 
@@ -99,32 +106,32 @@ header a {
 
 
 
-.workout-full {
+.template-full {
   background: #fff;
   padding: 40px;    
   transition: background ease-in-out 0.3s;
 }
 
-.workout-full:hover {
+.template-full:hover {
   background: #e3e3e3;
 
 }
 
-.workout-full h4 {
+.template-full h4 {
   margin: 0 0 0 0;
   font-size: 0.8em;
   color: var(--secondary);
   transition: color 0.1s ease-in;
 
 }
-.workout-full p {
+.template-full p {
   margin: 0;
   font-size: 0.6em;
   color: #555;
 }
 
 
-.workout-full span {
+.template-full span {
   top: 20px;
   cursor: pointer;
   border-radius: 50%;
@@ -133,7 +140,7 @@ header a {
 
 }
 
-.workout-full span:hover {
+.template-full span:hover {
   color: var(--error);
 }
 
@@ -219,6 +226,48 @@ nav button {
 
 /* auth forms */
 form.signup, form.login {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 40px;
+  background: #fff;
+  border-radius: 20px;
+}
+
+.tag.selected {
+  background-color: #007BFF;
+  color: white;
+}
+
+.template-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.template-full {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.concatenated-box {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  overflow-y: auto; 
+}
+
+/* TemplateForm.css */
+
+/* Styling for the dropdown */
+.dropdown {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+
+form.create {
   max-width: 400px;
   margin: 40px auto;
   padding: 40px;
