@@ -107,15 +107,10 @@ const updateTemplate = async (req, res) => {
   const updatedConvos = [...existingTemplate.convos, ...req.body.convos];
   const updatedTemplateData = {
     ...req.body,
-    convos: updatedConvos,
-    version: existingTemplate.version + 1
+    convos: updatedConvos
   };
 
-  const updatedTemplate = await Template.findOneAndUpdate({ _id: id, version: existingTemplate.version }, updatedTemplateData, { new: true });
-
-  if (!updatedTemplate) {
-    return res.status(409).json({ error: "Conflict: The data was updated by another request. Please try again." });
-  }
+  const updatedTemplate = await Template.findByIdAndUpdate(id, updatedTemplateData, { new: true });
 
   res.status(200).json(updatedTemplate);
 };
