@@ -51,6 +51,10 @@ const templateSchema = new Schema({
     type: [convoSchema],
     required: true
   },
+  version: {
+    type: Number,
+    default: 0
+  },
   user_id: {
     type: String,
     required: true
