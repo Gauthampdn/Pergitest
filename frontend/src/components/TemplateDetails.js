@@ -38,13 +38,14 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
   useEffect(() => {
     if (template.convos) {
-      const prompts = template.convos.map(convo => convo.prompt);
-      setConcatenatedStrings(prompts);
+      setConcatenatedStrings(template.convos);
+      console.log(template.convos);
     } else {
       setConcatenatedStrings([]);
     }
   }, [template]);
   
+
 
   const handleTagClick = (tag, selectorIndex) => {
     setSelectedTagsList((prevTagsList) => {
@@ -59,13 +60,6 @@ const TemplateDetails = ({ template, onDeleted }) => {
       return updatedTagsList;
     });
   };
-
-
-
-
-
-
-
 
   const concatenateText = () => {
     let concatenatedText = '';
@@ -87,7 +81,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
     });
     return concatenatedText.trim();
   };
-  
+
 
 
   const updateConvo = async (concatenatedText) => {
@@ -100,16 +94,17 @@ const TemplateDetails = ({ template, onDeleted }) => {
       },
       body: JSON.stringify({ convos: [...template.convos, newConvo] })
     });
-  
+
     if (response.ok) {
       const updatedTemplate = await response.json();
       dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-      setConcatenatedStrings(prevStrings => [...prevStrings, concatenatedText]);
+      const newConvo = { prompt: concatenatedText, response: "RESPONSE" };
+      setConcatenatedStrings(prevConvo => [...prevConvo, newConvo]);
     } else {
       console.error("Failed to save convo");
     }
   };
-  
+
 
 
 
@@ -133,7 +128,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       },
       body: JSON.stringify({ convos: [] })
     });
-  
+
     if (response.ok) {
       const updatedTemplate = await response.json();
       dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
@@ -142,7 +137,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       console.error("Failed to save convo");
     }
   };
-  
+
 
 
   return (
@@ -194,10 +189,16 @@ const TemplateDetails = ({ template, onDeleted }) => {
       </div>
 
       <div className="concatenated-box">
-      <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
-        {concatenatedStrings.map((str, index) => (
-          <ReactMarkdown key={index} children={str} />
+        <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
+        {concatenatedStrings.map((convo, index) => (
+          <div key={index}>
+            <h4>Prompt:</h4>
+            <ReactMarkdown children={convo.prompt} />
+            <h4>Response:</h4>
+            <ReactMarkdown children={convo.response} />
+          </div>
         ))}
+
 
       </div>
 
