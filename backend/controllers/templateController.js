@@ -10,7 +10,7 @@ const getTemplates = async (req, res) => {
   // Define the IDs you always want to include
   const alwaysIncludeIds = [
     mongoose.Types.ObjectId("64f2b4688a8c5d7413766ade"),
-    mongoose.Types.ObjectId("64f2b4688a8c5d7413766adf")
+    // mongoose.Types.ObjectId("64f2b4688a8c5d7413766adf")
   ];
 
   // Modify the query to either match the user_id or one of the alwaysIncludeIds
