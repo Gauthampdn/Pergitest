@@ -39,13 +39,11 @@ const TemplateDetails = ({ template, onDeleted }) => {
   useEffect(() => {
     if (template.convos) {
       setConcatenatedStrings(template.convos);
-      console.log(template.convos);
     } else {
       setConcatenatedStrings([]);
     }
   }, [template]);
   
-
 
   const handleTagClick = (tag, selectorIndex) => {
     setSelectedTagsList((prevTagsList) => {
@@ -60,6 +58,13 @@ const TemplateDetails = ({ template, onDeleted }) => {
       return updatedTagsList;
     });
   };
+
+
+
+
+
+
+
 
   const concatenateText = () => {
     let concatenatedText = '';
@@ -86,25 +91,28 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
   const updateConvo = async (concatenatedText) => {
     const newConvo = { prompt: concatenatedText, response: "RESPONSE" };
+
+    // Use concatenatedStrings directly
+    const updatedConvos = [...concatenatedStrings, newConvo];
+
     const response = await fetch(`https://pergiv0-1backend.onrender.com/api/templates/${template._id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${user.token}`
-      },
-      body: JSON.stringify({ convos: [...template.convos, newConvo] })
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${user.token}`
+        },
+        body: JSON.stringify({ convos: updatedConvos })
     });
 
     if (response.ok) {
-      const updatedTemplate = await response.json();
-      dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-      const newConvo = { prompt: concatenatedText, response: "RESPONSE" };
-      setConcatenatedStrings(prevConvo => [...prevConvo, newConvo]);
+        const updatedTemplate = await response.json();
+        console.log(updatedTemplate);
+        dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
+        setConcatenatedStrings(updatedConvos);
     } else {
-      console.error("Failed to save convo");
+        console.error("Failed to save convo");
     }
-  };
-
+};
 
 
 
