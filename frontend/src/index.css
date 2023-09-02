@@ -164,8 +164,8 @@ form button {
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.1s ease-in;
-
 }
+
 
 form button:hover {
   background: var(--primary)

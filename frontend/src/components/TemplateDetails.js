@@ -1,7 +1,7 @@
 import { useTemplatesContext } from "../hooks/useTemplatesContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactMarkdown from 'react-markdown';
 
 const TemplateDetails = ({ template, onDeleted }) => {
@@ -28,9 +28,23 @@ const TemplateDetails = ({ template, onDeleted }) => {
     }
   };
 
+
+
   const [textboxValues, setTextboxValues] = useState([]);
   const [selectedTagsList, setSelectedTagsList] = useState([]);
   const [concatenatedStrings, setConcatenatedStrings] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+  useEffect(() => {
+    if (template.convos) {
+      const prompts = template.convos.map(convo => convo.prompt);
+      setConcatenatedStrings(prompts);
+    } else {
+      setConcatenatedStrings([]);
+    }
+  }, [template]);
+  
 
   const handleTagClick = (tag, selectorIndex) => {
     setSelectedTagsList((prevTagsList) => {
@@ -47,8 +61,13 @@ const TemplateDetails = ({ template, onDeleted }) => {
   };
 
 
-  
-  const handleConcatenateAndLog = async () => {
+
+
+
+
+
+
+  const concatenateText = () => {
     let concatenatedText = '';
     template.template.forEach((item, index) => {
       switch (item.type) {
@@ -66,9 +85,13 @@ const TemplateDetails = ({ template, onDeleted }) => {
           break;
       }
     });
+    return concatenatedText.trim();
+  };
+  
 
-    // Save the concatenated string to the backend
-    const newConvo = { prompt: "Your prompt here", response: concatenatedText.trim() }; // Adjust the prompt as needed
+
+  const updateConvo = async (concatenatedText) => {
+    const newConvo = { prompt: concatenatedText, response: "RESPONSE" };
     const response = await fetch(`https://pergiv0-1backend.onrender.com/api/templates/${template._id}`, {
       method: "PATCH",
       headers: {
@@ -77,15 +100,26 @@ const TemplateDetails = ({ template, onDeleted }) => {
       },
       body: JSON.stringify({ convos: [...template.convos, newConvo] })
     });
-
+  
     if (response.ok) {
       const updatedTemplate = await response.json();
       dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-      setConcatenatedStrings(prevStrings => [...prevStrings, concatenatedText.trim()]);
+      setConcatenatedStrings(prevStrings => [...prevStrings, concatenatedText]);
     } else {
       console.error("Failed to save convo");
     }
   };
+  
+
+
+  const handleConcatenateAndLog = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const concatenatedText = concatenateText();
+    await updateConvo(concatenatedText);
+    setIsSubmitting(false);
+  };
+  
 
 
   return (
@@ -132,7 +166,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
           }
         })}
 
-        <button onClick={handleConcatenateAndLog}>Log Text</button>
+        <button disabled={isSubmitting} onClick={handleConcatenateAndLog}>{isSubmitting ? "Loading..." : "Submit"}</button>
         <span className="material-symbols-outlined" onClick={handleClick}> delete </span>
       </div>
 

@@ -92,8 +92,15 @@ const deleteTemplate = async (req, res) => {
 }
 
 
+const IdempotencyStore = {}; // This is a simple in-memory store. Consider using a more persistent storage in production.
+
 const updateTemplate = async (req, res) => {
   const {id} = req.params;
+
+  const idempotencyKey = req.header('Idempotency-Key');
+  if (idempotencyKey && IdempotencyStore[idempotencyKey]) {
+    return res.status(200).json(IdempotencyStore[idempotencyKey]);
+  }
 
   if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({error: "No such Template and invalid ID"});
@@ -111,6 +118,10 @@ const updateTemplate = async (req, res) => {
   };
 
   const updatedTemplate = await Template.findByIdAndUpdate(id, updatedTemplateData, { new: true });
+
+  if (idempotencyKey) {
+    IdempotencyStore[idempotencyKey] = updatedTemplate;
+  }
 
   res.status(200).json(updatedTemplate);
 };
