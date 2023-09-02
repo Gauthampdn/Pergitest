@@ -16,6 +16,7 @@ const Signup = () => {
   return (
 
     <form className="signup" onSubmit={handleSubmit}>
+      <img src="/PergiLogopurp.png" alt="Description" className="LogoImage"></img>
       <h3> Sign up </h3>
       <label> Email: </label>
       <input type="email" onChange={(e) => setEmail(e.target.value)} value = {email}/>
@@ -23,8 +24,9 @@ const Signup = () => {
       <label> Password: </label>
       <input type="password" onChange={(e) => setPassword(e.target.value)} value = {password}/>
 
-      <button disabled = { isLoading } >Sign Up</button>
-      { error && <div className="error">{error}</div> }
+      <button disabled={isLoading}>
+      {isLoading ? 'Loading...' : 'Sign up'}
+      </button>      { error && <div className="error">{error}</div> }
     </form>
   
    );

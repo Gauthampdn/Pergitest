@@ -14,8 +14,9 @@ const Login = () => {
   }
 
   return (
-
+    
     <form className="login" onSubmit={handleSubmit}>
+      <img src="/PergiLogopurp.png" alt="Description" className="LogoImage"></img>
       <h3> Log in </h3>
       <label> Email: </label>
       <input type="email" onChange={(e) => setEmail(e.target.value)} value = {email}/>

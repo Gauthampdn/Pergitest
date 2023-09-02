@@ -2,6 +2,7 @@ import { useTemplatesContext } from "../hooks/useTemplatesContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useState } from "react";
+import ReactMarkdown from 'react-markdown';
 
 const TemplateDetails = ({ template, onDeleted }) => {
   const { dispatch } = useTemplatesContext();
@@ -65,12 +66,14 @@ const TemplateDetails = ({ template, onDeleted }) => {
     });
     console.log(concatenatedText.trim());
     setConcatenatedStrings(prevStrings => [...prevStrings, concatenatedText.trim()]);
+    
   };
 
   return (
     <div className="template-container">
       <div className="template-full">
-        <h4>{template.title}</h4>
+        <h1>{template.title}</h1>
+        <h2>{template.description}</h2>
         <p>{formatDistanceToNow(new Date(template.createdAt), { addSuffix: true })}</p>
 
         {template.template.map((item, index) => {
@@ -116,9 +119,10 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
       <div className="concatenated-box">
         {concatenatedStrings.map((str, index) => (
-          <div key={index}>{str}</div>
+          <ReactMarkdown key={index} children={str} />
         ))}
       </div>
+
 
     </div>
   );

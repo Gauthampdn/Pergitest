@@ -13,6 +13,18 @@ const itemSchema = new Schema({
   }
 });
 
+const convoSchema = new Schema({
+  prompt: {
+    type: String,
+    required: true,
+  },
+  response: {
+    type: String, 
+    required: true
+  }
+});
+
+
 // Schema for the main object
 const templateSchema = new Schema({
   title: {
@@ -35,11 +47,16 @@ const templateSchema = new Schema({
     type: [itemSchema],
     required: true
   },
+  convos: {
+    type: [convoSchema],
+    required: true
+  },
   user_id: {
     type: String,
     required: true
   }
 }, { timestamps: true });
+
 
 // Create the model based on the schema
 
