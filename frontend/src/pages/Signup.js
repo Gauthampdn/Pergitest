@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
+import { JellyTriangle } from '@uiball/loaders'
+
 
 
 const Signup = () => {
@@ -25,8 +27,13 @@ const Signup = () => {
       <input type="password" onChange={(e) => setPassword(e.target.value)} value = {password}/>
 
       <button disabled={isLoading}>
-      {isLoading ? 'Loading...' : 'Sign up'}
-      </button>      { error && <div className="error">{error}</div> }
+      {isLoading ? <JellyTriangle
+          size={20}
+          speed={1.75}
+          color="white"
+        /> : 'Sign up'}
+      </button>
+      { error && <div className="error">{error}</div> }
     </form>
   
    );

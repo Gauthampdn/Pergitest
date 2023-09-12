@@ -10,7 +10,7 @@ const Home = () => {
   const { templates, dispatch } = useTemplatesContext();
   const { user } = useAuthContext();
   const [currTemplate, setCurrTemplate] = useState(null);
-  const [refetch, setRefetch] = useState(false); // New state variable
+ // const [refetch, setRefetch] = useState(false); // New state variable
 
 
   useEffect(() => {
@@ -30,12 +30,13 @@ const Home = () => {
     if (user) {
       fetchTemplates();
     }
-  }, [dispatch, user, refetch]);
+
+  }, [dispatch, user]); // had 'refetch' as a dependency too
 
 
   const handleTemplateClick = (template) => {
     setCurrTemplate(template);
-    setRefetch(!refetch); // Toggle refetch state whenever a template is clicked
+   // setRefetch(!refetch); // Toggle refetch state whenever a template is clicked
   };
 
   return (

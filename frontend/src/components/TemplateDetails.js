@@ -106,7 +106,6 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
     if (response.ok) {
         const updatedTemplate = await response.json();
-        console.log(updatedTemplate);
         dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
         setConcatenatedStrings(updatedConvos);
     } else {

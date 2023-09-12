@@ -33,7 +33,7 @@ const templateSchema = new Schema({
   },
   description: {
     type: String,
-    required: true
+    required: false
   },
   image: {
     type: String,
