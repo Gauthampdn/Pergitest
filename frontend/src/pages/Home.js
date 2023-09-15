@@ -15,6 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchTemplates = async () => {
+      console.log("fetching templates")
       const response = await fetch('https://pergiv0-1backend.onrender.com/api/templates', {
         headers: {
           "Authorization": `Bearer ${user.token}`
@@ -24,6 +25,9 @@ const Home = () => {
 
       if (response.ok) {
         dispatch({ type: 'SET_TEMPLATES', payload: json });
+        if (json.length > 0) {
+          setCurrTemplate(json[0]);
+        }
       }
     };
 
@@ -36,6 +40,8 @@ const Home = () => {
 
   const handleTemplateClick = (template) => {
     setCurrTemplate(template);
+    console.log(template)
+
    // setRefetch(!refetch); // Toggle refetch state whenever a template is clicked
   };
 
@@ -48,11 +54,14 @@ const Home = () => {
             key={template._id}
             onClick={() => handleTemplateClick(template)}
           />
+          
         ))}
       </div>
 
       <div className="templates">
         {currTemplate && <TemplateDetails template={currTemplate} onDeleted={() => setCurrTemplate(null)} />}
+        {!currTemplate && <h1> select or create a template </h1> }
+      
       </div>
     </div>
   );
