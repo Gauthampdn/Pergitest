@@ -23,7 +23,7 @@ header {
   
 }
 header .container {
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0px;
   padding: 10px 20px;
   display: flex;
@@ -37,7 +37,7 @@ header a {
 
 }
 .pages{
-  max-width: 1400px;
+  max-width: 100%;
 }
 
 
