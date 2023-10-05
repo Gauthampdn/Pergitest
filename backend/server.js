@@ -6,17 +6,42 @@ require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 const templateRoutes = require("./routes/templates")
-const userRoutes = require("./routes/user")
+const authRoutes = require("./routes/auth")
+const session = require('express-session');
+const passport = require("passport");
+
+
 const cors = require('cors');
 
 // express app
 const app = express()
 
-app.use(cors());
-
 
 // middleware
 app.use(express.json()) // to get req body
+
+
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'DELETE', 'PATCH'],
+  credentials: true
+}));
+
+
+
+app.use(session({
+  secret: 'keyboard cat',
+  cookie: { 
+    maxAge: 24 * 60 * 60 * 1000
+   }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
 
 app.use( (req, res, next) => {
   console.log(req.method, req.path)
@@ -24,8 +49,10 @@ app.use( (req, res, next) => {
 } )
 
 //routes
+app.use("/auth", authRoutes)
 app.use("/api/templates", templateRoutes)
-app.use("/api/user", userRoutes)
+
+
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)

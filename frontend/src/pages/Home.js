@@ -16,11 +16,10 @@ const Home = () => {
   useEffect(() => {
     const fetchTemplates = async () => {
       console.log("fetching templates")
-      const response = await fetch('https://pergiv0-1backend.onrender.com/api/templates', {
-        headers: {
-          "Authorization": `Bearer ${user.token}`
-        }
+      const response = await fetch("http://localhost:4000/api/templates", {
+        credentials: 'include'
       });
+      
       const json = await response.json();
 
       if (response.ok) {
@@ -35,14 +34,12 @@ const Home = () => {
       fetchTemplates();
     }
 
-  }, [dispatch, user]); // had 'refetch' as a dependency too
+  }, [dispatch, user]); 
 
 
   const handleTemplateClick = (template) => {
     setCurrTemplate(template);
     console.log(template)
-
-   // setRefetch(!refetch); // Toggle refetch state whenever a template is clicked
   };
 
   return (

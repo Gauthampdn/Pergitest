@@ -1,43 +1,49 @@
-import { useState } from "react";
-import { useLogin } from "../hooks/useLogin";
-import { JellyTriangle } from '@uiball/loaders'
+import { useState, useEffect } from "react";
+import GoogleButton from 'react-google-button';
+import { useAuthContext } from "../hooks/useAuthContext";
 
 
 
 const Login = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const { login, error, isLoading } = useLogin()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const { dispatch } = useAuthContext()
 
-    await login(email, password)
 
-  }
+  const handleButtonClick = () => {
+    window.location.href = "http://localhost:4000/auth";
+  };
+
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      console.log("fetching user");
+        const response = await fetch('http://localhost:4000/auth/googleUser', {
+          credentials: 'include'
+        });
+
+        const json = await response.json();
+        console.log(json);
+
+        if (response.ok) {
+          dispatch({type : "LOGIN", payload: json})
+        }
+
+    };
+
+    fetchUser();
+  }, []);
+
 
   return (
-
-    <form className="login" onSubmit={handleSubmit}>
-      <img src="/PergiLogopurp.png" alt="Description" className="LogoImage"></img>
-
-      <h3> Log in </h3>
-      <label> Email: </label>
-      <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
-
-      <label> Password: </label>
-      <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} />
-
-      <button disabled={isLoading}>
-        {isLoading ? <JellyTriangle
-          size={20}
-          speed={1.75}
-          color="white"
-        /> : 'Log in'}
-      </button>
-      {error && <div className="error">{error}</div>}
-    </form>
-
+    <div className="login">
+      <div className="login-image">
+        <img src="/purpfeathers.jpg" alt="background"/>
+      </div>
+      <div className="login-content">
+        <h1>Login</h1>
+        <GoogleButton onClick={handleButtonClick} />
+      </div>
+    </div>
   );
 }
 

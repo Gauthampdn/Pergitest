@@ -49,12 +49,12 @@ const TemplateForm = () => {
       user_id: user.id // Assuming user object has an id property
     };
 
-    const response = await fetch("https://pergiv0-1backend.onrender.com/api/templates", {
+    const response = await fetch("http://localhost:4000/api/templates", {
+      credentials: 'include',
       method: "POST",
       body: JSON.stringify(templateData),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${user.token}`,
       },
     });
 
