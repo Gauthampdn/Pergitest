@@ -5,12 +5,13 @@ const Template = require("../models/templateModel")
 
 const getTemplates = async (req, res) => {  // DONE
 
-  const user_id = req.user._id
+  const user_id = req.user.id
 
   const templates = await Template.find({user_id}).sort({createdAt: -1})
 
   res.status(200).json(templates)
 }
+
 
 // get a single template
 
@@ -52,7 +53,7 @@ const createTemplate = async (req, res) => {
 
   // Adding document to DB
   try {
-    const user_id = req.user._id;
+    const user_id = req.user.id;
     const newTemplate = await Template.create({
       title,
       description,

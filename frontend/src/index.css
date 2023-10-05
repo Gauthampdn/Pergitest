@@ -230,13 +230,75 @@ nav button {
 
 
 /* auth forms */
-form.signup, form.login {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 40px;
-  background: #fff;
-  border-radius: 20px;
+
+
+.GoogleButton {
+  cursor: pointer;
 }
+
+.login {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.login-image {
+  flex: 0.7;
+  display: flex;
+  justify-content: cover;
+  align-items: center;
+  position: relative; /* This is needed so that the pseudo-element is positioned relative to this container */
+}
+
+.login-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20%; /* Adjust this width value if you want the fade effect to be more or less wide */
+  background: linear-gradient(to left, #f1f1f1, rgba(255,255,255,0));
+  pointer-events: none; /* Ensure this overlay doesn't interfere with any interactions */
+}
+
+
+.login-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This will ensure that the image covers the entire container, even if parts are cut off */
+}
+
+
+.login-content {
+  flex: 0.3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  .login {
+    flex-direction: column;
+  }
+
+  .login-image, .login-content {
+    flex: 1;
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 .tag.selected {
   background-color: var(--secondary);

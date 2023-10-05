@@ -8,16 +8,13 @@ const TemplateDetails = ({ template, onDeleted }) => {
   const { dispatch } = useTemplatesContext();
   const { user } = useAuthContext();
 
-  const handleClick = async () => {
+  const handleDelete = async () => {
     if (!user) {
       return;
     }
-
-    const response = await fetch("https://pergiv0-1backend.onrender.com/api/templates/" + template._id, {
-      method: "DELETE",
-      headers: {
-        "Authorization": `Bearer ${user.token}`
-      }
+    const response = await fetch("http://localhost:4000/api/templates/" + template._id, {
+      credentials: 'include',
+      method: "DELETE"
     });
 
     const json = await response.json();
@@ -37,11 +34,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
   useEffect(() => {
-    if (template.convos) {
       setConcatenatedStrings(template.convos);
-    } else {
-      setConcatenatedStrings([]);
-    }
   }, [template]);
   
 
@@ -58,12 +51,6 @@ const TemplateDetails = ({ template, onDeleted }) => {
       return updatedTagsList;
     });
   };
-
-
-
-
-
-
 
 
   const concatenateText = () => {
@@ -95,11 +82,11 @@ const TemplateDetails = ({ template, onDeleted }) => {
     // Use concatenatedStrings directly
     const updatedConvos = [...concatenatedStrings, newConvo];
 
-    const response = await fetch(`https://pergiv0-1backend.onrender.com/api/templates/${template._id}`, {
+    const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
+      credentials: 'include',
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${user.token}`
         },
         body: JSON.stringify({ convos: updatedConvos })
     });
@@ -127,11 +114,11 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
   const handleResetConvo = async (e) => {
     e.preventDefault();
-    const response = await fetch(`https://pergiv0-1backend.onrender.com/api/templates/${template._id}`, {
+    const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
+      credentials: 'include',
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${user.token}`
       },
       body: JSON.stringify({ convos: [] })
     });
@@ -192,7 +179,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
         })}
 
         <button disabled={isSubmitting} onClick={handleConcatenateAndLog}>{isSubmitting ? "Loading..." : "Submit"}</button>
-        <span className="material-symbols-outlined" onClick={handleClick}> delete </span>
+        <span className="material-symbols-outlined" onClick={handleDelete}> delete </span>
       </div>
 
       <div className="concatenated-box">
