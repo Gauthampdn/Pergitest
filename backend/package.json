@@ -20,6 +20,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.3.2",
     "nodemon": "^2.0.22",
+    "openai": "^4.11.1",
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
     "validator": "^13.9.0"

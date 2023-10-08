@@ -6,6 +6,7 @@ require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 const templateRoutes = require("./routes/templates")
+const openaiRoutes = require("./routes/openai")
 const authRoutes = require("./routes/auth")
 const session = require('express-session');
 const passport = require("passport");
@@ -51,6 +52,7 @@ app.use( (req, res, next) => {
 //routes
 app.use("/auth", authRoutes)
 app.use("/api/templates", templateRoutes)
+app.use("/openai", openaiRoutes)
 
 
 

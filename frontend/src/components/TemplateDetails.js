@@ -4,6 +4,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useEffect, useState } from "react";
 import ReactMarkdown from 'react-markdown';
 
+
+
 const TemplateDetails = ({ template, onDeleted }) => {
   const { dispatch } = useTemplatesContext();
   const { user } = useAuthContext();
@@ -77,7 +79,20 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
   const updateConvo = async (concatenatedText) => {
-    const newConvo = { prompt: concatenatedText, response: "RESPONSE" };
+
+
+    const openaicompletion = await fetch("http://localhost:4000/openai/completion", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt: concatenatedText }),
+
+    });
+
+    const openaicompletionjson = await openaicompletion.json();
+
+    const newConvo = { prompt: concatenatedText, response: openaicompletionjson };
 
     // Use concatenatedStrings directly
     const updatedConvos = [...concatenatedStrings, newConvo];
