@@ -14,11 +14,11 @@ const itemSchema = new Schema({
 });
 
 const convoSchema = new Schema({
-  prompt: {
+  role: {
     type: String,
     required: true,
   },
-  response: {
+  content: {
     type: String, 
     required: true
   }

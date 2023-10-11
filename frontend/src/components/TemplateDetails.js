@@ -31,12 +31,12 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
   const [textboxValues, setTextboxValues] = useState([]);
   const [selectedTagsList, setSelectedTagsList] = useState([]);
-  const [convos, setconvos] = useState([]);
+  const [convos, setConvos] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
 
   useEffect(() => {
-      setconvos(template.convos);
+      setConvos(template.convos);
   }, [template]);
   
 
@@ -80,20 +80,25 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
   const updateConvo = async (concatenatedText) => {
 
+    const newConvo = { role: "user", content: concatenatedText };
+    const updatedConvos = [...convos, newConvo];  // Create a new updated array
+    console.log("the convos are", updatedConvos);
+
+    // setConvos([...convos, newConvo])
+    // console.log("the convos are" + convos);
+
     const openaicompletion = await fetch("http://localhost:4000/openai/completion", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ prompt: concatenatedText }),
+      body: JSON.stringify({ prompt: updatedConvos }),
 
     });
 
     const openaicompletionjson = await openaicompletion.json();
 
-    const newConvo = { prompt: concatenatedText, response: openaicompletionjson };
-
-    const updatedConvos = [...convos, newConvo];
+    const newContent = { role: "assistant", content: openaicompletionjson.choices[0].message.content};
 
     const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
       credentials: 'include',
@@ -101,13 +106,15 @@ const TemplateDetails = ({ template, onDeleted }) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ convos: updatedConvos })
+        body: JSON.stringify({ convos: [...updatedConvos, newContent] })
     });
+
+
 
     if (response.ok) {
         const updatedTemplate = await response.json();
         dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-        setconvos(updatedConvos);
+        setConvos([...updatedConvos, newContent])
     } else {
         console.error("Failed to save convo");
     }
@@ -139,7 +146,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
     if (response.ok) {
       const updatedTemplate = await response.json();
       dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-      setconvos([]);
+      setConvos([]);
     } else {
       console.error("Failed to save convo");
     }
@@ -199,10 +206,8 @@ const TemplateDetails = ({ template, onDeleted }) => {
         <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
         {convos.map((convo, index) => (
           <div key={index}>
-            <h4>Prompt:</h4>
-            <ReactMarkdown children={convo.prompt} />
-            <h4>Response:</h4>
-            <ReactMarkdown children={convo.response} />
+            <h4>{convo.role}:</h4>
+            <ReactMarkdown children={convo.content} />
           </div>
         ))}
 
