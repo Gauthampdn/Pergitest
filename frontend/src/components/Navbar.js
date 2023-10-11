@@ -6,31 +6,31 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const Navbar = () => {
 
   const { logout } = useLogout()
-  const { user } = useAuthContext() 
+  const { user } = useAuthContext()
 
   const handleClick = () => {
     logout()
   }
 
-  return ( 
+  return (
 
     <header>
       <div className="container">
         <Link to="/">
-          <h1> Pergi </h1>        
+          <h1> Pergi </h1>
         </Link>
         <nav>
-          { user && 
+          {user &&
             (<div>
-              <img src={user.picture} alt="" />
+              <img src={user.picture} alt="" className="user-image" />
               <span>{user.email}</span>
               <button onClick={handleClick}> Log Out</button>
 
-            <Link to="/create">Create</Link>
-            </div>            
+              <Link to="/create">Create</Link>
+            </div>
             )
           }
-          { !user && 
+          {!user &&
             (<div>
             </div>)
           }
@@ -38,7 +38,7 @@ const Navbar = () => {
       </div>
     </header>
 
-   );
+  );
 }
- 
+
 export default Navbar;

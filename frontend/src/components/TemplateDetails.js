@@ -23,7 +23,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
     if (response.ok) {
       dispatch({ type: "DELETE_TEMPLATE", payload: json });
-      if (onDeleted) onDeleted();
+      onDeleted();
     }
   };
 
@@ -31,12 +31,12 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
   const [textboxValues, setTextboxValues] = useState([]);
   const [selectedTagsList, setSelectedTagsList] = useState([]);
-  const [concatenatedStrings, setConcatenatedStrings] = useState([]);
+  const [convos, setconvos] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
 
   useEffect(() => {
-      setConcatenatedStrings(template.convos);
+      setconvos(template.convos);
   }, [template]);
   
 
@@ -80,7 +80,6 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
   const updateConvo = async (concatenatedText) => {
 
-
     const openaicompletion = await fetch("http://localhost:4000/openai/completion", {
       method: "POST",
       headers: {
@@ -94,8 +93,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
     const newConvo = { prompt: concatenatedText, response: openaicompletionjson };
 
-    // Use concatenatedStrings directly
-    const updatedConvos = [...concatenatedStrings, newConvo];
+    const updatedConvos = [...convos, newConvo];
 
     const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
       credentials: 'include',
@@ -109,7 +107,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
     if (response.ok) {
         const updatedTemplate = await response.json();
         dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-        setConcatenatedStrings(updatedConvos);
+        setconvos(updatedConvos);
     } else {
         console.error("Failed to save convo");
     }
@@ -117,7 +115,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
 
-  const handleConcatenateAndLog = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     const concatenatedText = concatenateText();
@@ -141,7 +139,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
     if (response.ok) {
       const updatedTemplate = await response.json();
       dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-      setConcatenatedStrings([]);
+      setconvos([]);
     } else {
       console.error("Failed to save convo");
     }
@@ -193,13 +191,13 @@ const TemplateDetails = ({ template, onDeleted }) => {
           }
         })}
 
-        <button disabled={isSubmitting} onClick={handleConcatenateAndLog}>{isSubmitting ? "Loading..." : "Submit"}</button>
+        <button disabled={isSubmitting} onClick={handleSubmit}>{isSubmitting ? "Loading..." : "Submit"}</button>
         <span className="material-symbols-outlined" onClick={handleDelete}> delete </span>
       </div>
 
       <div className="concatenated-box">
         <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
-        {concatenatedStrings.map((convo, index) => (
+        {convos.map((convo, index) => (
           <div key={index}>
             <h4>Prompt:</h4>
             <ReactMarkdown children={convo.prompt} />

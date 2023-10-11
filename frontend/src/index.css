@@ -227,6 +227,11 @@ nav button {
   font-family: "Poppins";
   cursor: pointer;
 }
+nav .user-image {
+  max-height: 30px;
+  width: auto; /* to maintain the aspect ratio */
+}
+
 
 
 /* auth forms */

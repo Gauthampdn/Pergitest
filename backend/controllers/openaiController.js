@@ -15,11 +15,9 @@ const completion = async (req, res) => {
 
         console.log(prompt)
 
-        const response = await openai.completions.create({
-            model: "gpt-3.5-turbo-instruct",
-            prompt: prompt,
-            max_tokens: 500,
-            stream: false
+        const response = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages:[]
         });
 
         
