@@ -3,29 +3,12 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useEffect, useState } from "react";
 import ReactMarkdown from 'react-markdown';
-import { InlineMath, BlockMath } from 'react-katex';
 
-import 'katex/dist/katex.min.css';
-
-
-
-const OpenAI = require('openai');
-
-const openai = new OpenAI({
-  apiKey: process.env.REACT_APP_API_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true
-});
 
 
 const TemplateDetails = ({ template, onDeleted }) => {
   const { dispatch } = useTemplatesContext();
   const { user } = useAuthContext();
-
-  const renderers = {
-    inlineMath: ({ value }) => <InlineMath>{value}</InlineMath>,
-    math: ({ value }) => <BlockMath>{value}</BlockMath>
-  };
-
 
   const handleDelete = async () => {
     if (!user) {
@@ -53,9 +36,9 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
   useEffect(() => {
-    setConvos(template.convos);
+      setConvos(template.convos);
   }, [template]);
-
+  
 
   const handleTagClick = (tag, selectorIndex) => {
     setSelectedTagsList((prevTagsList) => {
@@ -94,56 +77,48 @@ const TemplateDetails = ({ template, onDeleted }) => {
   };
 
 
+
   const updateConvo = async (concatenatedText) => {
 
     const newConvo = { role: "user", content: concatenatedText };
-    let str = "";
-
-    // Extract only the role and content properties from convos
-    const cleanedConvos = convos.map(convo => ({
-      role: convo.role,
-      content: convo.content
-    }));
-
-    const updatedConvos = [...cleanedConvos, newConvo];
-    setConvos(updatedConvos)
+    const updatedConvos = [...convos, newConvo];  // Create a new updated array
     console.log("the convos are", updatedConvos);
 
+    // setConvos([...convos, newConvo])
+    // console.log("the convos are" + convos);
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: updatedConvos,
-      stream: true,
+    const openaicompletion = await fetch("http://localhost:4000/openai/completion", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt: updatedConvos }),
+
     });
 
-    for await (const chunk of completion) {
-      if (chunk.choices[0].delta.content === undefined) {
-        break;
-      }
-      str += chunk.choices[0].delta.content;
-      setConvos([...updatedConvos, { role: "assistant", content: str }])
-    }
+    const openaicompletionjson = await openaicompletion.json();
 
-
-    const newContent = { role: "assistant", content: str };
+    const newContent = { role: "assistant", content: openaicompletionjson.choices[0].message.content};
 
     const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
       credentials: 'include',
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ convos: [...updatedConvos, newContent] })
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ convos: [...updatedConvos, newContent] })
     });
 
+
+
     if (response.ok) {
-      const updatedTemplate = await response.json();
-      dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-      setConvos([...updatedConvos, newContent])
+        const updatedTemplate = await response.json();
+        dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
+        setConvos([...updatedConvos, newContent])
     } else {
-      console.error("Failed to save convo");
+        console.error("Failed to save convo");
     }
-  };
+};
 
 
 
@@ -158,8 +133,6 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
   const handleResetConvo = async (e) => {
-    console.log(process.env.REACT_APP_API_TRIAL)
-
     e.preventDefault();
     const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
       credentials: 'include',
@@ -234,11 +207,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
         {convos.map((convo, index) => (
           <div key={index}>
             <h4>{convo.role}:</h4>
-            <ReactMarkdown
-              children={convo.content}
-              renderers={renderers}
-              plugins={[require('remark-math')]}
-            />
+            <ReactMarkdown children={convo.content} />
           </div>
         ))}
 
