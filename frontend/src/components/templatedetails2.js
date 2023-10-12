@@ -3,7 +3,12 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useEffect, useState } from "react";
 import ReactMarkdown from 'react-markdown';
+const OpenAI = require('openai');
 
+const openai = new OpenAI({
+  apiKey: process.env.REACT_APP_API_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true
+});
 
 
 const TemplateDetails = ({ template, onDeleted }) => {
@@ -77,39 +82,47 @@ const TemplateDetails = ({ template, onDeleted }) => {
   };
 
 
-
   const updateConvo = async (concatenatedText) => {
 
     const newConvo = { role: "user", content: concatenatedText };
-    const updatedConvos = [...convos, newConvo];  // Create a new updated array
+    let str = "";
+
+    // Extract only the role and content properties from convos
+    const cleanedConvos = convos.map(convo => ({
+        role: convo.role,
+        content: convo.content
+    }));
+
+    const updatedConvos = [...cleanedConvos, newConvo];
+    setConvos(updatedConvos)
     console.log("the convos are", updatedConvos);
 
-    // setConvos([...convos, newConvo])
-    // console.log("the convos are" + convos);
 
-    const openaicompletion = await fetch("http://localhost:4000/openai/completion", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ prompt: updatedConvos }),
-
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: updatedConvos,
+      stream: true,
     });
+  
+    for await (const chunk of completion) {
+      if(chunk.choices[0].delta.content === undefined ){
+        break;
+      }
+      str += chunk.choices[0].delta.content;
+      setConvos([...updatedConvos, { role: "assistant", content: str }])
+    }
 
-    const openaicompletionjson = await openaicompletion.json();
 
-    const newContent = { role: "assistant", content: openaicompletionjson.choices[0].message.content};
+    const newContent = { role: "assistant", content: str };
 
     const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
-      credentials: 'include',
+        credentials: 'include',
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ convos: [...updatedConvos, newContent] })
     });
-
-
 
     if (response.ok) {
         const updatedTemplate = await response.json();
@@ -133,6 +146,8 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
   const handleResetConvo = async (e) => {
+    console.log(process.env.REACT_APP_API_TRIAL )
+
     e.preventDefault();
     const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
       credentials: 'include',
