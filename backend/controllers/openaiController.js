@@ -31,16 +31,25 @@ const completion = async (req, res) => {
 
 const test = async (req, res) => {
     try {
-        const promptText = "Give a a simple markdown file example";
-        const response = await openai.completions.create({
-            model: "gpt-3.5-turbo-instruct",
-            prompt: promptText,
-            max_tokens: 150,
-            stream: false
+        const promptText = "Give a simple markdown file example";
+        const response = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [
+                { "role": "system", "content": "You are a helpful assistant." },
+                { "role": "user", "content": "Hello how are you!" }
+            ], stream: true
         });
 
-        console.log(response.choices[0].text);
-        res.json(response.choices[0].text);
+        console.log("respose is: " + response);
+
+
+        for await (const chunk of response) {
+            console.log(chunk.choices[0].delta.content);
+        }
+        console.log("DONE");
+
+
+        res.json(response);
     } catch (error) {
         console.error("Error with OpenAI request:", error);
         res.status(500).send('Error with OpenAI request');

@@ -88,6 +88,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
     }));
 
     const updatedConvos = [...cleanedConvos, newConvo];
+    setConvos(updatedConvos)
     console.log("the convos are", updatedConvos);
 
     const openaicompletion = await fetch("http://localhost:4000/openai/completion", {
@@ -114,8 +115,6 @@ const TemplateDetails = ({ template, onDeleted }) => {
     if (response.ok) {
         const updatedTemplate = await response.json();
         dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-        // console.log("the updated template is" + JSON.stringify(updatedTemplate, null, 2));
-        // console.log("the updated template is" + JSON.stringify(template, null, 2));
         setConvos([...updatedConvos, newContent])
     } else {
         console.error("Failed to save convo");
