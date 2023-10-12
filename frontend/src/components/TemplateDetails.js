@@ -77,31 +77,33 @@ const TemplateDetails = ({ template, onDeleted }) => {
   };
 
 
-
   const updateConvo = async (concatenatedText) => {
 
     const newConvo = { role: "user", content: concatenatedText };
-    const updatedConvos = [...convos, newConvo];  // Create a new updated array
+
+    // Extract only the role and content properties from convos
+    const cleanedConvos = convos.map(convo => ({
+        role: convo.role,
+        content: convo.content
+    }));
+
+    const updatedConvos = [...cleanedConvos, newConvo];
     console.log("the convos are", updatedConvos);
 
-    // setConvos([...convos, newConvo])
-    // console.log("the convos are" + convos);
-
     const openaicompletion = await fetch("http://localhost:4000/openai/completion", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ prompt: updatedConvos }),
-
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: updatedConvos }),
     });
 
     const openaicompletionjson = await openaicompletion.json();
 
-    const newContent = { role: "assistant", content: openaicompletionjson.choices[0].message.content};
+    const newContent = { role: "assistant", content: openaicompletionjson.choices[0].message.content };
 
     const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
-      credentials: 'include',
+        credentials: 'include',
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -109,11 +111,11 @@ const TemplateDetails = ({ template, onDeleted }) => {
         body: JSON.stringify({ convos: [...updatedConvos, newContent] })
     });
 
-
-
     if (response.ok) {
         const updatedTemplate = await response.json();
         dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
+        // console.log("the updated template is" + JSON.stringify(updatedTemplate, null, 2));
+        // console.log("the updated template is" + JSON.stringify(template, null, 2));
         setConvos([...updatedConvos, newContent])
     } else {
         console.error("Failed to save convo");
