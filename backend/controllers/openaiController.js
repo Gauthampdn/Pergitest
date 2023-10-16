@@ -37,16 +37,9 @@ const test = async (req, res) => {
             messages: [
                 { "role": "system", "content": "You are a helpful assistant." },
                 { "role": "user", "content": "Hello how are you!" }
-            ], stream: true
+            ]
         });
 
-        console.log("respose is: " + response);
-
-
-        for await (const chunk of response) {
-            console.log(chunk.choices[0].delta.content);
-        }
-        console.log("DONE");
 
 
         res.json(response);

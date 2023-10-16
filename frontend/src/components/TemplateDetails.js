@@ -63,11 +63,11 @@ const TemplateDetails = ({ template, onDeleted }) => {
     setConvos(template.convos);
   }, [template]);
 
-  useEffect(() => {
-    if (!manualScroll && convosRef.current) {
-      convosRef.current.scrollTop = convosRef.current.scrollHeight;
-    }
-  }, [convos]);
+  // useEffect(() => {
+  //   if (!manualScroll && convosRef.current) {
+  //     convosRef.current.scrollTop = convosRef.current.scrollHeight;
+  //   }
+  // }, [convos]);
 
 
   // useEffect(() => {
