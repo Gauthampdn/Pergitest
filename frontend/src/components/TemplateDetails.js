@@ -48,7 +48,15 @@ const TemplateDetails = ({ template, onDeleted }) => {
   const [convos, setConvos] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [iconState, setIconState] = useState("content_copy");  // New state
+  const [interactText, setInteractText] = useState("");
 
+
+  const handleInteractKeyPress = (e) => {
+    if (e.key === "Enter") {
+      updateConvo(interactText);
+      setInteractText("");  // Clear the textbox after sending
+    }
+  };
 
 
   useEffect(() => {
@@ -61,20 +69,21 @@ const TemplateDetails = ({ template, onDeleted }) => {
     }
   }, [convos]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const container = convosRef.current;
-      const isNearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 20; // 10px leeway
 
-      setManualScroll(!isNearBottom);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const container = convosRef.current;
+  //     const isNearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 20; // 10px leeway
 
-    convosRef.current.addEventListener('scroll', handleScroll);
+  //     setManualScroll(!isNearBottom);
+  //   };
 
-    return () => {
-      convosRef.current.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  //   convosRef.current.addEventListener('scroll', handleScroll);
+
+  //   return () => {
+  //     convosRef.current.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
 
 
 
@@ -166,6 +175,9 @@ const TemplateDetails = ({ template, onDeleted }) => {
       console.error("Failed to save convo");
     }
   };
+
+
+
   const handleCopyContent = () => {
     if (!convos.length) {
       console.error("No conversation items to copy.");
@@ -281,14 +293,19 @@ const TemplateDetails = ({ template, onDeleted }) => {
         <span className="material-symbols-outlined" onClick={handleDelete}> delete </span>
         <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
         <span className="material-symbols-outlined" onClick={handleCopyContent}> {iconState} </span>
-
-
-
       </div>
 
-      <div className="concatenated-box" ref={convosRef}>
-      <input type="text" placeholder="interact here" />
 
+
+      <div className="concatenated-box" ref={convosRef}>
+        <input
+          className="interact-text"
+          type="text"
+          placeholder="interact here"
+          value={interactText}
+          onChange={e => setInteractText(e.target.value)}
+          onKeyPress={handleInteractKeyPress}
+        />
         {convos.map((convo, index) => (
           <div key={index}>
             <h4>{convo.role}:</h4>
