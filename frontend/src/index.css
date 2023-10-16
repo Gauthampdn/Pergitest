@@ -1,73 +1,73 @@
-/* google font */
+/* Google fonts */
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 
-
-/* layout */
+/* Variables */
 :root {
-  --primary: #1aac83;
+  --primary: #2176ff;
   --secondary: #4869ff;
   --error: #e7195a;
+  --offwhite: #f1f1f1;
+  --white: #ffffff;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+
 body {
-  background: #f1f1f1;
+  background: var(--offwhite);
   margin: 0;
-  font-family: "Rubik";  height: 100vh;
+  font-family: "Rubik";
+  padding: 20px; /* This gives you a 20px gap around the screen */
+  box-sizing: border-box; /* This ensures padding is included in the total height */
   justify-content: center;
   align-items: center;
 }
 
 
-header {
-  background: #fff;
-  
-}
-header .container {
-  max-width: 100%;
-  margin: 0px;
-  padding: 10px 20px;
+/* Layout */
+.home {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  
+  flex: 1;
+  margin: 0px;
+  gap: 20px;
+  /* between components*/
+  height: calc(100vh - 40px);
 }
-header a {
-  color: #333;
-  text-decoration: none;
-
-}
-.pages{
-  max-width: 100%;
-}
-
-
 
 .side {
-  width: 15%; /* Adjust as needed */
-  height: 100vh;
-  background-color: #f1f1f1; /* Light gray */
-  float: left;
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 5px;
+  width: 15%;
+  background-color: var(--primary);
+  border-radius: 10px;
+  height: auto;
+
 }
 
-.templates {
-  width: 85%;
-  height: 100vh;
-  background-color: #f1f1f1; /* Light gray */
-  float: right;
+.centered-header {
+  text-align: center;
+  margin: 30px;
+  /* This centers block elements */
+
 }
-
-
 
 
 .side-details {
-  background: #f1f1f1;
-  padding: 10px;    
-  padding-left: 20px;
+  padding: 8px;
   position: relative;
-    cursor: pointer;
+  cursor: pointer;
+  margin-left: 12px;
+  margin-right: 12px;
+  transition: all 0.2s ease;
+  border-radius: 5px;
 
-  transition: background ease-in-out 0.3s;
 }
 
 .side-details:hover {
@@ -78,50 +78,46 @@ header a {
 .side-details h4 {
   margin: 0 0 0 0;
   font-size: 0.8em;
-  color: var(--secondary);
-  transition: color 0.1s ease-in;
+  color: var(--white);
 
 }
+
 .side-details p {
   margin: 0;
   font-size: 0.6em;
-  color: #555;
+  color: var(--white);
 }
 
 
-.side-details span {
-  position: absolute;
-  top: 20px;
-  cursor: pointer;
-  padding: 6px;
-  color: #333;
-  transition: color 0.1s ease-in;
 
+.side-details:hover h4 {
+  color: var(--primary);
 }
 
-.side-details span:hover {
-  color: var(--error);
+.side-details:hover p {
+  color: var(--primary);
 }
 
+
+
+.templates {
+  display: flex; 
+  width: 85%;
+  border-radius: 10px;
+  height: auto;
+}
 
 
 
 .template-full {
   background: #fff;
-  padding: 40px;    
+  padding: 30px;
 }
 
 
-.template-full h4 {
-  margin: 0 0 0 0;
-  font-size: 0.8em;
-  color: var(--secondary);
-  transition: color 0.1s ease-in-out;
-
-}
 .template-full p {
   margin: 0;
-  font-size: 0.6em;
+  font-size: 10px;
   color: #555;
 }
 
@@ -134,25 +130,36 @@ header a {
 
 }
 
-
-
-.concatenated-box span {
-  top: 20px;
-  cursor: pointer;
-  color: #333;
-  transition: color 0.1s ease-in;
-
-}
-
-.concatenated-box span:hover {
-  color: var(--error);
+.template-container {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  
 }
 
 
+.template-full {
+  flex: 1;
+  margin-right: 20px;
+}
+
+/* Additional styling for the template details */
+.template-full h1,
+.template-full h2 {
+  margin-bottom: 10px;
+}
+
+.template-full p {
+  margin-bottom: 20px;
+}
 
 
 
-label, input {
+
+label,
+input {
   display: block;
 }
 
@@ -216,7 +223,7 @@ nav a:hover {
 }
 
 nav span {
-   margin-right: 15px;
+  margin-right: 15px;
 }
 
 nav button {
@@ -228,9 +235,11 @@ nav button {
   font-family: "Poppins";
   cursor: pointer;
 }
+
 nav .user-image {
   max-height: 30px;
-  width: auto; /* to maintain the aspect ratio */
+  width: auto;
+  /* to maintain the aspect ratio */
 }
 
 
@@ -253,7 +262,8 @@ nav .user-image {
   display: flex;
   justify-content: cover;
   align-items: center;
-  position: relative; /* This is needed so that the pseudo-element is positioned relative to this container */
+  position: relative;
+  /* This is needed so that the pseudo-element is positioned relative to this container */
 }
 
 .login-image::after {
@@ -262,16 +272,19 @@ nav .user-image {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 2%; /* Adjust this width value if you want the fade effect to be more or less wide */
-  background: linear-gradient(to left, #f1f1f1, rgba(255,255,255,0));
-  pointer-events: none; /* Ensure this overlay doesn't interfere with any interactions */
+  width: 2%;
+  /* Adjust this width value if you want the fade effect to be more or less wide */
+  background: linear-gradient(to left, var(--offwhite), rgba(255, 255, 255, 0));
+  pointer-events: none;
+  /* Ensure this overlay doesn't interfere with any interactions */
 }
 
 
 .login-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* This will ensure that the image covers the entire container, even if parts are cut off */
+  object-fit: cover;
+  /* This will ensure that the image covers the entire container, even if parts are cut off */
 }
 
 
@@ -286,12 +299,14 @@ nav .user-image {
 
 
 @media (max-width: 768px) {
+
   /* Adjust styles for smaller screens */
   .login {
     flex-direction: column;
   }
 
-  .login-image, .login-content {
+  .login-image,
+  .login-content {
     flex: 1;
   }
 }
@@ -311,22 +326,7 @@ nav .user-image {
   color: white;
 }
 
-.template-container {
-  display: flex;
-  justify-content: space-between;
-}
 
-.template-full {
-  flex: 1;
-  margin-right: 20px;
-}
-
-.concatenated-box {
-  flex: 1;
-  border: 1px solid #ccc;
-  padding: 10px;
-  overflow-y: auto; 
-}
 
 /* TemplateForm.css */
 
@@ -349,17 +349,22 @@ form.create {
 }
 
 .LogoImage {
-  display: block; /* makes the image a block element */
-  margin: 0 auto; /* centers the image horizontally */
-  max-width: 10%; /* ensures the image doesn't overflow the form's width */
-  height: auto; /* maintains the image's aspect ratio */
+  display: block;
+  /* makes the image a block element */
+  margin: 0 auto;
+  /* centers the image horizontally */
+  max-width: 10%;
+  /* ensures the image doesn't overflow the form's width */
+  height: auto;
+  /* maintains the image's aspect ratio */
 }
 
 
 
-
 /* General styling for all h1, h2, h3 elements */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin-bottom: 20px;
 }
 
@@ -389,12 +394,17 @@ button:disabled {
 /* Styling for links */
 a {
   text-decoration: none;
-  color: var(--primary);
+  color: var(--offwhite);
   transition: color 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  align-content: center;
+
 }
 
 a:hover {
-  color: var(--secondary);
+  color: #ffffff;
 }
 
 /* Styling for material symbols */
@@ -416,7 +426,7 @@ a:hover {
   padding: 5px 10px;
   margin: 5px;
   border-radius: 5px;
-  background-color: #f1f1f1;
+  background-color: var(--offwhite);
   cursor: pointer;
   transition: background-color 1s ease-in-out, color 1s ease-in-out;
 }
@@ -448,46 +458,52 @@ input[type="text"]:focus {
 }
 
 /* Additional styling for the side details */
-.side-details {
-  transition: all 0.3s ease;
-}
 
-.side-details:hover h4 {
-  color: var(--primary);
-}
 
-/* Additional styling for the template details */
-.template-full h1, .template-full h2 {
-  margin-bottom: 30px;
-}
 
-.template-full p {
-  margin-bottom: 20px;
-}
 
 /* Styling for the concatenated box */
 .concatenated-box {
-  padding: 20px;
+  padding: 30px;
   background-color: #fff;
   border-radius: 10px;
-  max-height: 500px;
-}
-
-.concatenated-box h4{
-  font-size: 15px;
-}
-
-#ReactMarkdown{
-  font-size: 3px;
-}
-
-/* Additional styling for the template container */
-.template-container {
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  border: 1px solid #ccc;
+  overflow: auto;
+  font-size: 14px;
 }
 
 
+.concatenated-box h4 {
+  font-size: 14px;
+  padding: 0px;
+  margin: 0px;
+}
 
+.concatenated-box span {
+  top: 20px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.1s ease-in;
 
+}
+
+.concatenated-box span:hover {
+  color: var(--error);
+}
+
+table {
+  border-collapse: collapse;
+  width: auto;
+}
+
+table,
+th,
+td {
+  border: 1px solid gainsboro;
+}
+
+th,
+td {
+  padding: 8px 12px;
+}

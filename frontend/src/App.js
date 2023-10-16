@@ -4,7 +4,6 @@ import { useAuthContext } from "./hooks/useAuthContext"
 // pages & components
 import Home from "./pages/Home"
 import Login from "./pages/Login";
-import Navbar from "./components/Navbar";
 import Create from "./pages/Create";
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
     <div className="App">
 
       <BrowserRouter>
-        <Navbar/>
         <div className="pages">
           <Routes>
             <Route

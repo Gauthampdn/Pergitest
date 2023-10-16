@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { useTemplatesContext } from "../hooks/useTemplatesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Link } from "react-router-dom"
 
 // components
 import TemplateDetails from "../components/TemplateDetails";
 import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   const { templates, dispatch } = useTemplatesContext();
   const { user } = useAuthContext();
   const [currTemplate, setCurrTemplate] = useState(null);
- // const [refetch, setRefetch] = useState(false); // New state variable
+  // const [refetch, setRefetch] = useState(false); // New state variable
 
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const Home = () => {
       const response = await fetch("http://localhost:4000/api/templates", {
         credentials: 'include'
       });
-      
+
       const json = await response.json();
 
       if (response.ok) {
@@ -34,7 +36,7 @@ const Home = () => {
       fetchTemplates();
     }
 
-  }, [dispatch, user]); 
+  }, [dispatch, user]);
 
 
   const handleTemplateClick = (template) => {
@@ -45,20 +47,27 @@ const Home = () => {
   return (
     <div className="home">
       <div className="side">
+
+        <Link to="https://pergi.app/">
+          <h1 className="centered-header"> Pergi </h1>
+        </Link>
+
+
         {templates && templates.map(template => (
           <Sidebar
             template={template}
             key={template._id}
             onClick={() => handleTemplateClick(template)}
           />
-          
+
         ))}
+        <Navbar />
       </div>
 
       <div className="templates">
         {currTemplate && <TemplateDetails template={currTemplate} onDeleted={() => setCurrTemplate(null)} />}
-        {!currTemplate && <h1> select or create a template </h1> }
-      
+        {!currTemplate && <h1> select or create a template </h1>}
+
       </div>
     </div>
   );

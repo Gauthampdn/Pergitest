@@ -1,14 +1,28 @@
 import { useTemplatesContext } from "../hooks/useTemplatesContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow as style } from 'react-syntax-highlighter/dist/esm/styles/prism';
+;
 
+const OpenAI = require('openai');
+
+const openai = new OpenAI({
+  apiKey: process.env.REACT_APP_API_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true
+});
 
 
 const TemplateDetails = ({ template, onDeleted }) => {
   const { dispatch } = useTemplatesContext();
   const { user } = useAuthContext();
+  const convosRef = useRef(null);
+  const [manualScroll, setManualScroll] = useState(false);
+
+
 
   const handleDelete = async () => {
     if (!user) {
@@ -33,12 +47,36 @@ const TemplateDetails = ({ template, onDeleted }) => {
   const [selectedTagsList, setSelectedTagsList] = useState([]);
   const [convos, setConvos] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [iconState, setIconState] = useState("content_copy");  // New state
+
 
 
   useEffect(() => {
-      setConvos(template.convos);
+    setConvos(template.convos);
   }, [template]);
-  
+
+  useEffect(() => {
+    if (!manualScroll && convosRef.current) {
+      convosRef.current.scrollTop = convosRef.current.scrollHeight;
+    }
+  }, [convos]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const container = convosRef.current;
+      const isNearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 20; // 10px leeway
+
+      setManualScroll(!isNearBottom);
+    };
+
+    convosRef.current.addEventListener('scroll', handleScroll);
+
+    return () => {
+      convosRef.current.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
 
   const handleTagClick = (tag, selectorIndex) => {
     setSelectedTagsList((prevTagsList) => {
@@ -77,49 +115,85 @@ const TemplateDetails = ({ template, onDeleted }) => {
   };
 
 
-
   const updateConvo = async (concatenatedText) => {
 
     const newConvo = { role: "user", content: concatenatedText };
-    const updatedConvos = [...convos, newConvo];  // Create a new updated array
+    let str = "";
+
+    // Extract only the role and content properties from convos
+    const cleanedConvos = convos.map(convo => ({
+      role: convo.role,
+      content: convo.content
+    }));
+
+    const updatedConvos = [...cleanedConvos, newConvo];
+    setConvos(updatedConvos)
     console.log("the convos are", updatedConvos);
 
-    // setConvos([...convos, newConvo])
-    // console.log("the convos are" + convos);
 
-    const openaicompletion = await fetch("http://localhost:4000/openai/completion", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ prompt: updatedConvos }),
-
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      temperature: 0,
+      messages: updatedConvos,
+      stream: true,
     });
 
-    const openaicompletionjson = await openaicompletion.json();
+    for await (const chunk of completion) {
+      if (chunk.choices[0].delta.content === undefined) {
+        break;
+      }
+      str += chunk.choices[0].delta.content;
+      setConvos([...updatedConvos, { role: "assistant", content: str }])
+    }
 
-    const newContent = { role: "assistant", content: openaicompletionjson.choices[0].message.content};
+
+    const newContent = { role: "assistant", content: str };
 
     const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
       credentials: 'include',
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ convos: [...updatedConvos, newContent] })
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ convos: [...updatedConvos, newContent] })
     });
 
-
-
     if (response.ok) {
-        const updatedTemplate = await response.json();
-        dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-        setConvos([...updatedConvos, newContent])
+      const updatedTemplate = await response.json();
+      dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
+      setConvos([...updatedConvos, newContent])
     } else {
-        console.error("Failed to save convo");
+      console.error("Failed to save convo");
     }
-};
+  };
+  const handleCopyContent = () => {
+    if (!convos.length) {
+      console.error("No conversation items to copy.");
+      return;
+    }
 
+    const lastConvoContent = convos[convos.length - 1].content;
+
+    if (!navigator.clipboard) {
+      console.error("Clipboard API not supported in this browser.");
+      return;
+    }
+
+    navigator.clipboard.writeText(lastConvoContent)
+      .then(() => {
+        console.log("Last convo content copied to clipboard.");
+
+        setIconState("Task_Alt");
+
+        setTimeout(() => {
+          setIconState("content_copy");
+        }, 1100);
+
+      })
+      .catch(err => {
+        console.error("Failed to copy content:", err);
+      });
+  };
 
 
   const handleSubmit = async (e) => {
@@ -133,6 +207,8 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
   const handleResetConvo = async (e) => {
+    console.log(process.env.REACT_APP_API_TRIAL)
+
     e.preventDefault();
     const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
       credentials: 'include',
@@ -150,6 +226,9 @@ const TemplateDetails = ({ template, onDeleted }) => {
     } else {
       console.error("Failed to save convo");
     }
+
+
+
   };
 
 
@@ -200,22 +279,24 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
         <button disabled={isSubmitting} onClick={handleSubmit}>{isSubmitting ? "Loading..." : "Submit"}</button>
         <span className="material-symbols-outlined" onClick={handleDelete}> delete </span>
+        <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
+        <span className="material-symbols-outlined" onClick={handleCopyContent}> {iconState} </span>
+
+
+
       </div>
 
-      <div className="concatenated-box">
-        <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
+      <div className="concatenated-box" ref={convosRef}>
+      <input type="text" placeholder="interact here" />
+
         {convos.map((convo, index) => (
           <div key={index}>
             <h4>{convo.role}:</h4>
-            <ReactMarkdown children={convo.content} />
+            <ReactMarkdown remarkPlugins={[remarkGfm]} children={convo.content} />
           </div>
         ))}
 
-
       </div>
-
-
-
     </div>
   );
 }
