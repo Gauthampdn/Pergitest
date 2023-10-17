@@ -50,7 +50,7 @@ app.use( (req, res, next) => {
 } )
 
 //routes
-app.use("/undefined/auth", authRoutes)
+app.use("/auth", authRoutes)
 app.use("/api/templates", templateRoutes)
 app.use("/openai", openaiRoutes)
 
