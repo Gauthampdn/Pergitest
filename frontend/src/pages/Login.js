@@ -15,9 +15,14 @@ const Login = () => {
   useEffect(() => {
     const fetchUser = async () => {
       console.log("fetching user");
-      const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/undefined/auth/googleUser`, {
+
+
+      const response = await fetch("http://pergiv0-1backend.onrender.com/auth/googleUser", {
         credentials: 'include'
       });
+
+      console.log("fetched user:");
+
   
       const json = await response.json();
       console.log(json);
