@@ -9,13 +9,13 @@ const Login = () => {
   const { dispatch } = useAuthContext()
 
   const handleButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_API_BACKEND}/auth`;
+    window.location.href = `${process.env.REACT_APP_API_BACKEND}/undefined/auth`;
   };
   
   useEffect(() => {
     const fetchUser = async () => {
       console.log("fetching user");
-      const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/auth/googleUser`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/undefined/auth/googleUser`, {
         credentials: 'include'
       });
   
