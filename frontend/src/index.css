@@ -146,12 +146,20 @@ body {
 }
 
 /* Additional styling for the template details */
-.template-full h1,
+.template-full h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
 .template-full h2 {
+  font-size: 15px;
+  font-weight: 500;
   margin-bottom: 10px;
 }
 
 .template-full p {
+  font-size: 12px;
+  font-weight: 300;
   margin-bottom: 20px;
 }
 

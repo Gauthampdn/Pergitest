@@ -51,10 +51,17 @@ const TemplateDetails = ({ template, onDeleted }) => {
   const [interactText, setInteractText] = useState("");
 
 
-  const handleInteractKeyPress = (e) => {
+  const handleInteractKeyPress = async (e) => {
+    if (isSubmitting) return; // prevent further actions if isSubmitting is true
+
     if (e.key === "Enter") {
-      updateConvo(interactText);
+      
+      setIsSubmitting(true);
+      await updateConvo(interactText);
       setInteractText("");  // Clear the textbox after sending
+      setIsSubmitting(false);
+
+
     }
   };
 
@@ -252,6 +259,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
         <h2>{template.description}</h2>
         <p>{formatDistanceToNow(new Date(template.createdAt), { addSuffix: true })}</p>
 
+
         {template.template.map((item, index) => {
           switch (item.type) {
             case "header":
@@ -289,7 +297,9 @@ const TemplateDetails = ({ template, onDeleted }) => {
           }
         })}
 
-        <button disabled={isSubmitting} onClick={handleSubmit}>{isSubmitting ? "Loading..." : "Submit"}</button>
+        <button disabled={isSubmitting} onClick={handleSubmit}>
+          {isSubmitting ? "Loading..." : "Submit"}
+        </button>
         <span className="material-symbols-outlined" onClick={handleDelete}> delete </span>
         <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
         <span className="material-symbols-outlined" onClick={handleCopyContent}> {iconState} </span>
