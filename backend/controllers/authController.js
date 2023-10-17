@@ -82,6 +82,7 @@ const logout = (req, res) => {
 
 const getGoogleUser = async (req, res) => {
   if (req.isAuthenticated()) {
+    console.log("req is authenticated")
     res.json(req.user);
   }
 }
