@@ -49,7 +49,7 @@ const TemplateForm = () => {
       user_id: user.id // Assuming user object has an id property
     };
 
-    const response = await fetch("http://localhost:4000/api/templates", {
+    const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates`, {
       credentials: 'include',
       method: "POST",
       body: JSON.stringify(templateData),
@@ -57,6 +57,7 @@ const TemplateForm = () => {
         "Content-Type": "application/json",
       },
     });
+    
 
     const json = await response.json();
     setIsSubmitting(false);

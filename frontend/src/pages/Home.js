@@ -18,9 +18,10 @@ const Home = () => {
   useEffect(() => {
     const fetchTemplates = async () => {
       console.log("fetching templates")
-      const response = await fetch("http://localhost:4000/api/templates", {
+      const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates`, {
         credentials: 'include'
       });
+      
 
       const json = await response.json();
 

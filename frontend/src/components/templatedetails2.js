@@ -19,10 +19,11 @@ const TemplateDetails = ({ template, onDeleted }) => {
     if (!user) {
       return;
     }
-    const response = await fetch("http://localhost:4000/api/templates/" + template._id, {
+    const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
       credentials: 'include',
       method: "DELETE"
     });
+
 
     const json = await response.json();
 
@@ -41,9 +42,9 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
   useEffect(() => {
-      setConvos(template.convos);
+    setConvos(template.convos);
   }, [template]);
-  
+
 
   const handleTagClick = (tag, selectorIndex) => {
     setSelectedTagsList((prevTagsList) => {
@@ -89,8 +90,8 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
     // Extract only the role and content properties from convos
     const cleanedConvos = convos.map(convo => ({
-        role: convo.role,
-        content: convo.content
+      role: convo.role,
+      content: convo.content
     }));
 
     const updatedConvos = [...cleanedConvos, newConvo];
@@ -103,9 +104,9 @@ const TemplateDetails = ({ template, onDeleted }) => {
       messages: updatedConvos,
       stream: true,
     });
-  
+
     for await (const chunk of completion) {
-      if(chunk.choices[0].delta.content === undefined ){
+      if (chunk.choices[0].delta.content === undefined) {
         break;
       }
       str += chunk.choices[0].delta.content;
@@ -115,23 +116,24 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
     const newContent = { role: "assistant", content: str };
 
-    const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
-        credentials: 'include',
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ convos: [...updatedConvos, newContent] })
+    const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
+      credentials: 'include',
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ convos: [...updatedConvos, newContent] })
     });
 
+
     if (response.ok) {
-        const updatedTemplate = await response.json();
-        dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
-        setConvos([...updatedConvos, newContent])
+      const updatedTemplate = await response.json();
+      dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
+      setConvos([...updatedConvos, newContent])
     } else {
-        console.error("Failed to save convo");
+      console.error("Failed to save convo");
     }
-};
+  };
 
 
 
@@ -146,10 +148,10 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
   const handleResetConvo = async (e) => {
-    console.log(process.env.REACT_APP_API_TRIAL )
+    console.log(process.env.REACT_APP_API_TRIAL)
 
     e.preventDefault();
-    const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
       credentials: 'include',
       method: "PATCH",
       headers: {
@@ -157,6 +159,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       },
       body: JSON.stringify({ convos: [] })
     });
+    
 
     if (response.ok) {
       const updatedTemplate = await response.json();

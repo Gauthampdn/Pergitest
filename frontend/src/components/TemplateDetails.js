@@ -28,7 +28,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
     if (!user) {
       return;
     }
-    const response = await fetch("http://localhost:4000/api/templates/" + template._id, {
+    const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
       credentials: 'include',
       method: "DELETE"
     });
@@ -165,7 +165,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
     const newContent = { role: "assistant", content: str };
 
-    const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
       credentials: 'include',
       method: "PATCH",
       headers: {
@@ -173,6 +173,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       },
       body: JSON.stringify({ convos: [...updatedConvos, newContent] })
     });
+    
 
     if (response.ok) {
       const updatedTemplate = await response.json();
@@ -229,7 +230,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
     console.log(process.env.REACT_APP_API_TRIAL)
 
     e.preventDefault();
-    const response = await fetch(`http://localhost:4000/api/templates/${template._id}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
       credentials: 'include',
       method: "PATCH",
       headers: {
@@ -237,6 +238,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       },
       body: JSON.stringify({ convos: [] })
     });
+    
 
     if (response.ok) {
       const updatedTemplate = await response.json();

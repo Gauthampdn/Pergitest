@@ -12,7 +12,7 @@ export const useLogout =  () => {
     dispatch({type: "LOGOUT"})
     dispatchTemplates({type: "SET_TEMPLATES", payload: null})
 
-    window.location.href = "http://localhost:4000/auth/logout";
+    window.location.href = `${process.env.REACT_APP_API_BACKEND}/auth/logout`;
 
   }
 

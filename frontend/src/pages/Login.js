@@ -8,31 +8,28 @@ const Login = () => {
 
   const { dispatch } = useAuthContext()
 
-
   const handleButtonClick = () => {
-    window.location.href = "http://localhost:4000/auth";
+    window.location.href = `${process.env.REACT_APP_API_BACKEND}/auth`;
   };
-
-
+  
   useEffect(() => {
     const fetchUser = async () => {
       console.log("fetching user");
-      const response = await fetch('http://localhost:4000/auth/googleUser', {
+      const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/auth/googleUser`, {
         credentials: 'include'
       });
-
+  
       const json = await response.json();
       console.log(json);
-
+  
       if (response.ok) {
         dispatch({ type: "LOGIN", payload: json })
       }
-
     };
-
+  
     fetchUser();
   }, [dispatch]);
-
+  
 
   return (
     <div className="login">

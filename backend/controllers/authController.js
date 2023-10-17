@@ -8,11 +8,13 @@ const defaultTemplates = require('./DefaultTemplates');
 require("dotenv").config();
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:4000/auth/redirect/google",
-    passReqToCallback: true
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: `${process.env.REACT_APP_API_BACKEND}/auth/redirect/google`,
+  passReqToCallback: true
 },
+
+
 async function (request, accessToken, refreshToken, profile, done) {
     try {
         // Find a user in the database based on their Google ID.
