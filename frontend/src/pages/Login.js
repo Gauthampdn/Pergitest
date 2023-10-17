@@ -17,7 +17,7 @@ const Login = () => {
       console.log("fetching user");
 
 
-      const response = await fetch("http://pergiv0-1backend.onrender.com/auth/googleUser", {
+      const response = await fetch("https://pergiv0-1backend.onrender.com/auth/googleUser", {
         credentials: 'include'
       });
 

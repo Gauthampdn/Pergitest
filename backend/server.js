@@ -24,7 +24,7 @@ app.use(express.json()) // to get req body
 
 
 
-const allowedOrigins = ['http://localhost:3000', 'https://pergiv0-1backend.onrender.com'];
+const allowedOrigins = ['http://localhost:3000', 'https://pergiv0-1backend.onrender.com', 'http://pergiv0-1backend.onrender.com'];
 
 app.use(cors({
   origin: function(origin, callback) {
