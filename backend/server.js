@@ -24,7 +24,10 @@ app.use(express.json()) // to get req body
 
 
 
-const allowedOrigins = ['http://localhost:3000', 'https://pergiv0-1backend.onrender.com', 'http://pergiv0-1backend.onrender.com', 'https://pergi.onrender.com/login', 'https://pergi.onrender.com'];
+const allowedOrigins = [
+  'https://pergi.onrender.com',
+  'https://pergiv0-1backend.onrender.com'
+];
 
 app.use(cors({
   origin: function(origin, callback) {
@@ -43,12 +46,11 @@ app.use(cors({
 
 app.use(session({
   secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false,
   cookie: {
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: "Lax",
-      secure: false
+    maxAge: 24 * 60 * 60 * 1000,
+    sameSite: "Lax",
+    secure: true, // because you are using https
+    domain: '.onrender.com' // this makes the cookie available to all subdomains
   }
 }));
 
