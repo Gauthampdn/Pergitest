@@ -43,10 +43,13 @@ app.use(cors({
 
 app.use(session({
   secret: 'keyboard cat',
-  cookie: { 
-    maxAge: 24 * 60 * 60 * 1000
-   }
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000,
+    sameSite: "none",
+    secure: "true"
+  }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());

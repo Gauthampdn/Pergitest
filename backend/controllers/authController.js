@@ -69,6 +69,8 @@ const getAuth = passport.authenticate("google", { scope: ["email", "profile"] })
 const redirectGoogle = passport.authenticate("google", {
   successRedirect: "http://localhost:3000/login",
   failureRedirect: "/failedAuth",
+  successReturnToOrRedirect: "http://localhost:3000/login",
+  session: true
 });
 
 const logout = (req, res) => {
