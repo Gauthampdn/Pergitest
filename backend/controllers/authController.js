@@ -17,6 +17,8 @@ passport.use(new GoogleStrategy({
 
 async function (request, accessToken, refreshToken, profile, done) {
     try {
+      console.log("trying to find user")
+
         // Find a user in the database based on their Google ID.
         let user = await User.findOne({ id: profile.id });
 
