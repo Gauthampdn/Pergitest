@@ -15,47 +15,56 @@ passport.use(new GoogleStrategy({
 },
 
 
+// ... [rest of the code above]
+
 async function (request, accessToken, refreshToken, profile, done) {
-    try {
-      console.log("trying to find user")
+  try {
+      console.log("trying to find user");
 
-        // Find a user in the database based on their Google ID.
-        let user = await User.findOne({ id: profile.id });
+      // Find a user in the database based on their Google ID.
+      let user = await User.findOne({ id: profile.id });
 
-        // If the user doesn't exist, create a new one.
-        if (!user) {
-          console.log("trying to make user")
+      // If the user doesn't exist, create a new one.
+      if (!user) {
+          console.log("User not found, trying to make a new user");
 
           const currentTime = new Date(); // Get the current time
 
           for (let templateData of defaultTemplates) {
-            await Template.create({
-              ...templateData,
-              user_id: profile.id,
-              createdAt: currentTime, // Set the createdAt to the current time
-              updatedAt: currentTime  // Set the updatedAt to the current time
-            });
+              console.log("Creating template for user:", profile.id);
+              const template = await Template.create({
+                  ...templateData,
+                  user_id: profile.id,
+                  createdAt: currentTime, // Set the createdAt to the current time
+                  updatedAt: currentTime  // Set the updatedAt to the current time
+              });
+              console.log("Template created with ID:", template._id); // Displaying created template's ID
           }
 
+          console.log("Creating new user in database");
           user = new User({
-                email: profile.email,
-                id: profile.id,
-                picture: profile.picture
-            });
-            await user.save();
+              email: profile.email,
+              id: profile.id,
+              picture: profile.picture
+          });
           
-            console.log("made new user")
+          await user.save();
+          console.log("New user created with ID:", user._id); // Displaying created user's ID
 
-        }
+      } else {
+          console.log("User already exists with ID:", user._id); // Log if the user already exists
+      }
 
-        // Return the user object for Passport to manage.
-        return done(null, user);
-    } catch (err) {
-      console.log("Error:", err); // This will give a clearer picture if something goes wrong.
+      // Return the user object for Passport to manage.
+      return done(null, user);
+  } catch (err) {
+      console.error("Error during authentication:", err); // This will give a clearer picture if something goes wrong.
       return done(err);
   }
-  
-}));
+}
+
+// ... [rest of the code below]
+));
 
 
 passport.serializeUser(function (user, done) {
