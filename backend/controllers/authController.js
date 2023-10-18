@@ -22,7 +22,8 @@ async function (request, accessToken, refreshToken, profile, done) {
 
         // If the user doesn't exist, create a new one.
         if (!user) {
-          
+          console.log("trying to make user")
+
           const currentTime = new Date(); // Get the current time
 
           for (let templateData of defaultTemplates) {
@@ -40,6 +41,8 @@ async function (request, accessToken, refreshToken, profile, done) {
                 picture: profile.picture
             });
             await user.save();
+            console.log("made new user")
+
         }
 
         // Return the user object for Passport to manage.
