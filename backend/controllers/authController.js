@@ -67,9 +67,9 @@ passport.deserializeUser(async function (id, done) {
 const getAuth = passport.authenticate("google", { scope: ["email", "profile"] });
 
 const redirectGoogle = passport.authenticate("google", {
-  successRedirect: "http://localhost:3000/login",
+  successRedirect: "https://pergi.onrender.com/login",
   failureRedirect: "/failedAuth",
-  successReturnToOrRedirect: "http://localhost:3000/login",
+  successReturnToOrRedirect: "https://pergi.onrender.com/login",
   session: true
 });
 
@@ -77,7 +77,7 @@ const logout = (req, res) => {
   req.logout(() => {
     req.session.destroy(() => {
       res.clearCookie('connect.sid');
-      res.redirect('http://localhost:3000/login');
+      res.redirect('https://pergi.onrender.com/login');
     });
   });
 }
