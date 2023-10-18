@@ -52,6 +52,7 @@ async function (request, accessToken, refreshToken, profile, done) {
     }
 }));
 
+
 passport.serializeUser(function (user, done) {
     // Serialize the user's ID into the session.
     done(null, user._id);
@@ -72,8 +73,6 @@ const getAuth = passport.authenticate("google", { scope: ["email", "profile"] })
 const redirectGoogle = passport.authenticate("google", {
   successRedirect: "https://pergi.onrender.com/login",
   failureRedirect: "/failedAuth",
-  successReturnToOrRedirect: "https://pergi.onrender.com/login",
-  session: true
 });
 
 const logout = (req, res) => {
