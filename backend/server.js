@@ -76,7 +76,7 @@ app.use("/openai", openaiRoutes)
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(process.env.PORT, ()=>{
-      console.log("connected to DB and listening on port 4000");
+      console.log("connected to DB and listening on the port " + process.env.PORT);
     })
   })
   .catch((err) => {

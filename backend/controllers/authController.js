@@ -43,6 +43,7 @@ async function (request, accessToken, refreshToken, profile, done) {
                 picture: profile.picture
             });
             await user.save();
+          
             console.log("made new user")
 
         }
@@ -50,8 +51,10 @@ async function (request, accessToken, refreshToken, profile, done) {
         // Return the user object for Passport to manage.
         return done(null, user);
     } catch (err) {
-        return done(err);
-    }
+      console.log("Error:", err); // This will give a clearer picture if something goes wrong.
+      return done(err);
+  }
+  
 }));
 
 
