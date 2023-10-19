@@ -12,6 +12,7 @@ const Login = () => {
     window.location.href = `${process.env.REACT_APP_API_BACKEND}/auth`;
   };
   
+  
   useEffect(() => {
     const fetchUser = async () => {
       console.log("fetching user");

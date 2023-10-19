@@ -43,7 +43,7 @@ const cors = require('cors');
 
 
 app.use(cors({
-  origin: 'https://pergi.onrender.com',
+  origin: 'https://pergi.onrender.com/login',
   credentials: true
 }));
 
