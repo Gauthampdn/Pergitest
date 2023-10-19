@@ -12,14 +12,8 @@ const session = require('express-session');
 const passport = require("passport");
 
 
+
 const cors = require('cors');
-
-
-app.use(cors({
-  origin: 'https://pergi.onrender.com/login',
-  credentials: true
-}));
-
 
 // express app
 const app = express()
@@ -31,19 +25,25 @@ app.use(express.json()) // to get req body
 
 
 
+app.use(cors({
+  origin: 'https://pergi.onrender.com/login',
+  credentials: true
+  
+}));
+
+
 app.use(session({
   secret: 'keyboard cat',
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
-    secure: true,
-    sameSite: "Lax",
-    domain: '.onrender.com'
   }
 }));
 
 
+
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 
 
