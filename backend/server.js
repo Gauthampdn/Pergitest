@@ -12,6 +12,13 @@ const session = require('express-session');
 const passport = require("passport");
 
 
+const cors = require('cors');
+
+
+app.use(cors({
+  origin: 'https://pergi.onrender.com/login',
+  credentials: true
+}));
 
 
 // express app
@@ -39,13 +46,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-const cors = require('cors');
-
-
-app.use(cors({
-  origin: 'https://pergi.onrender.com/login',
-  credentials: true
-}));
 
 app.use((req, res, next) => {
   console.log(req.method, req.path)
