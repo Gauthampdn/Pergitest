@@ -30,14 +30,15 @@ app.use(cors({
   credentials: true
 }));
 
-
 app.use(session({
   secret: 'keyboard cat',
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
+    secure: true,
+    sameSite: "Lax",
+    domain: '.onrender.com'
   }
 }));
-
 
 
 app.use(passport.initialize());
