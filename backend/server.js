@@ -39,6 +39,12 @@ app.use(session({
   }
 }));
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://pergi.onrender.com");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 
 
 app.use(passport.initialize());
