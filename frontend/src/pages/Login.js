@@ -13,11 +13,11 @@ const Login = () => {
   };
   
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUser =  () => {
       console.log("fetching user");
 
 
-      const response = await fetch("https://pergiv0-1backend.onrender.com/auth/googleUser", {
+      const response = fetch("https://pergiv0-1backend.onrender.com/auth/googleUser", {
         credentials: 'include',
         mode: 'cors'
       });
@@ -25,7 +25,7 @@ const Login = () => {
       console.log("fetched user:");
 
   
-      const json = await response.json();
+      const json = response.json();
       console.log(json);
   
       if (response.ok) {

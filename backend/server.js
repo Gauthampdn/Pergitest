@@ -13,7 +13,6 @@ const passport = require("passport");
 
 
 
-const cors = require('cors');
 
 // express app
 const app = express()
@@ -24,11 +23,6 @@ app.use(express.json()) // to get req body
 
 
 
-
-app.use(cors({
-  origin: 'https://pergi.onrender.com',
-  credentials: true
-}));
 
 app.use(session({
   secret: 'keyboard cat',
@@ -45,7 +39,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+const cors = require('cors');
 
+
+app.use(cors({
+  origin: 'https://pergi.onrender.com',
+  credentials: true
+}));
 
 app.use((req, res, next) => {
   console.log(req.method, req.path)
