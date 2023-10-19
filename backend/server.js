@@ -26,7 +26,7 @@ app.use(express.json()) // to get req body
 
 
 app.use(cors({
-  origin: 'https://pergi.onrender.com/login',
+  origin: 'https://pergi.app',
   credentials: true
 }));
 

@@ -41,7 +41,7 @@ const Login = () => {
   return (
     <div className="login">
       <div className="login-image">
-        <img src="/castle.png" alt="background" />
+        <img src="/gradwax.jpg" alt="background" />
       </div>
       <div className="login-content">
         <h1>Login/Signup to Pergi!</h1>
