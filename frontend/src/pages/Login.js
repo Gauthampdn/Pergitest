@@ -11,14 +11,14 @@ const Login = () => {
   const handleButtonClick = () => {
     window.location.href = `${process.env.REACT_APP_API_BACKEND}/auth`;
   };
-  
+
   
   useEffect(() => {
     const fetchUser = async () => {
       console.log("fetching user");
 
 
-      const response = await fetch("https://pergiv0-1backend.onrender.com/auth/googleUser", {
+      const response = await fetch("https://bcknd.pergi.app/auth/googleUser", {
         credentials: 'include',
         mode: 'cors'
       });

@@ -28,22 +28,15 @@ app.use(express.json()) // to get req body
 app.use(cors({
   origin: 'https://pergi.onrender.com/login',
   credentials: true
-  
 }));
 
 
 app.use(session({
   secret: 'keyboard cat',
   cookie: {
-    maxAge: 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // days hours minutes seconds milli
   }
 }));
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://pergi.onrender.com");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
 
 
 

@@ -10,7 +10,7 @@ require("dotenv").config();
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://pergiv0-1backend.onrender.com/auth/redirect/google", // somehow this is appending /undefined after ENV
+  callbackURL: "https://bcknd.pergi.app/auth/redirect/google", // somehow this is appending /undefined after ENV
   passReqToCallback: true
 },
 
@@ -73,7 +73,7 @@ passport.deserializeUser(async function (id, done) {
 const getAuth = passport.authenticate("google", { scope: ["email", "profile"] });
 
 const redirectGoogle = passport.authenticate("google", {
-  successRedirect: "https://pergi.onrender.com/login",
+  successRedirect: "https://pergi.app/login",
   failureRedirect: "/failedAuth",
 });
 
@@ -81,7 +81,7 @@ const logout = (req, res) => {
   req.logout(() => {
     req.session.destroy(() => {
       res.clearCookie('connect.sid');
-      res.redirect('https://pergi.onrender.com/login');
+      res.redirect('https://pergi.app/login');
     });
   });
 }
