@@ -44,7 +44,8 @@ const Login = () => {
         <img src="/gradwax.jpg" alt="background" />
       </div>
       <div className="login-content">
-        <h1>Login/Signup to Pergi!</h1>
+        <h1>Welcome to Pergi!</h1>
+        <h2>Click below to get started</h2>
         <GoogleButton
           type="dark"
           onClick={handleButtonClick}
