@@ -5,6 +5,7 @@ require("dotenv").config()
 
 const express = require("express")
 const mongoose = require("mongoose")
+const MongoStore = require('connect-mongo');
 const templateRoutes = require("./routes/templates")
 const openaiRoutes = require("./routes/openai")
 const authRoutes = require("./routes/auth")
@@ -31,6 +32,7 @@ app.use(session({
   },
   resave: false,
   saveUninitialized: true,
+  store: MongoStore.create(options)
 }));
 
 app.use(passport.initialize());
