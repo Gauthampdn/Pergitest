@@ -49,7 +49,7 @@ const Home = () => {
     <div className="home">
       <div className="side">
 
-        <Link to="https://pergi.app/">
+        <Link to="https://home.pergi.app/">
           <h1 className="centered-header"> Pergi </h1>
         </Link>
 
