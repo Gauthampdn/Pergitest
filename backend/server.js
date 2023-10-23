@@ -32,7 +32,7 @@ app.use(session({
   },
   resave: false,
   saveUninitialized: true,
-  store: MongoStore.create(options)
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
 }));
 
 app.use(passport.initialize());
