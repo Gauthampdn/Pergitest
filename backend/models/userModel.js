@@ -16,6 +16,10 @@ const userSchema = new Schema({
   picture: {
     type: String,
     required: true
+  },
+  name: {
+    type: String,
+    required: true
   }
 })
 

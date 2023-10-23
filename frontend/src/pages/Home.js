@@ -52,6 +52,7 @@ const Home = () => {
         <Link to="https://home.pergi.app/">
           <h1 className="centered-header"> Pergi </h1>
         </Link>
+        
 
 
         {templates && templates.map(template => (

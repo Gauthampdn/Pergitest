@@ -21,7 +21,7 @@ const Navbar = () => {
           {user &&
             (<div>
               <img src={user.picture} alt="" className="user-image" />
-              <span>{user.email}</span>
+              <span>Welcome, {user.name}!</span>
               <button onClick={handleClick}> Log Out</button>
 
               <Link to="/create">Create</Link>

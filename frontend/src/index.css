@@ -5,10 +5,14 @@
 
 /* Variables */
 :root {
-  --primary: #2176ff;
+  --color1: #a1633c;
+  --color2: #2176ff;
+  --color3: #0f915f;
+  --color4: #d1391e;
+  /* the rest of your variables */
   --secondary: #4869ff;
   --error: #e7195a;
-  --offwhite: #e4e4e4;
+  --offwhite: #f1f1f1;
   --white: #ffffff;
 }
 

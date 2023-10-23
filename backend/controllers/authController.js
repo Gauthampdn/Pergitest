@@ -15,59 +15,59 @@ passport.use(new GoogleStrategy({
 },
 
 
-async function (request, accessToken, refreshToken, profile, done) {
+  async function (request, accessToken, refreshToken, profile, done) {
     try {
-        console.log("trying to find user")
+      console.log("trying to find user")
 
-        // Find a user in the database based on their Google ID.
-        let user = await User.findOne({ id: profile.id });
+      // Find a user in the database based on their Google ID.
+      let user = await User.findOne({ id: profile.id });
 
-        // If the user doesn't exist, create a new one.
-        if (!user) {
-          console.log("trying to make user")
+      // If the user doesn't exist, create a new one.
+      if (!user) {
+        console.log("trying to make user")
 
-          const currentTime = new Date(); // Get the current time
+        const currentTime = new Date(); // Get the current time
 
-          for (let templateData of defaultTemplates) {
-            await Template.create({
-              ...templateData,
-              user_id: profile.id,
-              createdAt: currentTime, // Set the createdAt to the current time
-              updatedAt: currentTime  // Set the updatedAt to the current time
-            });
-          }
-
-          user = new User({
-                email: profile.email,
-                id: profile.id,
-                picture: profile.picture
-            });
-            await user.save();
-            console.log("made new user")
-
+        for (let templateData of defaultTemplates) {
+          await Template.create({
+            ...templateData,
+            user_id: profile.id,
+            createdAt: currentTime, // Set the createdAt to the current time
+            updatedAt: currentTime  // Set the updatedAt to the current time
+          });
         }
+        user = new User({
+          email: profile.email,
+          id: profile.id,
+          picture: profile.picture,
+          name: profile.given_name
+        });
+        await user.save();
+        console.log("made new user")
 
-        // Return the user object for Passport to manage.
-        return done(null, user);
+      }
+
+      // Return the user object for Passport to manage.
+      return done(null, user);
     } catch (err) {
-        return done(err);
+      return done(err);
     }
-}));
+  }));
 
 
 passport.serializeUser(function (user, done) {
-    // Serialize the user's ID into the session.
-    done(null, user._id);
+  // Serialize the user's ID into the session.
+  done(null, user._id);
 });
 
 passport.deserializeUser(async function (id, done) {
-    try {
-        // Use the ID serialized into the session to fetch the user from the database.
-        const user = await User.findById(id);
-        done(null, user);
-    } catch (err) {
-        done(err);
-    }
+  try {
+    // Use the ID serialized into the session to fetch the user from the database.
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
 });
 
 const getAuth = passport.authenticate("google", { scope: ["email", "profile"] });
