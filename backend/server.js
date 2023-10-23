@@ -5,7 +5,6 @@ require("dotenv").config()
 
 const express = require("express")
 const mongoose = require("mongoose")
-const MongoStore = require('connect-mongo')(session);
 const templateRoutes = require("./routes/templates")
 const openaiRoutes = require("./routes/openai")
 const authRoutes = require("./routes/auth")
