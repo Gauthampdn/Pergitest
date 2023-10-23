@@ -23,15 +23,18 @@ app.use(cors({
 }));
 
 // Connect to the database and set up session store
-mongoose.connect(process.env.MONGO_URI).then(() => {
+mongoose.connect(process.env.MONGO_URI).then((client) => {
     app.use(session({
         secret: 'keyboard cat',
-        store: new MongoStore({ mongooseConnection: mongoose.connection }),
+        store: MongoStore.create({ 
+          clientPromise: mongoose.connection.getClient(),
+          dbName: 'your-database-name' // replace 'your-database-name' with the name of your MongoDB database
+        }),
         resave: false,
         saveUninitialized: true,
         cookie: {
             maxAge: 7 * 24 * 60 * 60 * 1000, // days hours minutes seconds milli
-            secure: true, // Only use this if you're using HTTPS, set to false if not
+            secure: true,
             httpOnly: true,
         }
     }));
