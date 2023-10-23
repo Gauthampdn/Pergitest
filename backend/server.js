@@ -5,6 +5,7 @@ require("dotenv").config()
 
 const express = require("express")
 const mongoose = require("mongoose")
+const MongoStore = require('connect-mongo')(session);
 const templateRoutes = require("./routes/templates")
 const openaiRoutes = require("./routes/openai")
 const authRoutes = require("./routes/auth")
@@ -28,7 +29,10 @@ app.use(session({
   secret: 'keyboard cat',
   cookie: {
     maxAge: 7 * 24 * 60 * 60 * 1000, // days hours minutes seconds milli
-  }
+  },
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 app.use(passport.initialize());
