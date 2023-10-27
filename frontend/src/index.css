@@ -194,7 +194,7 @@ input {
   box-sizing: border-box;
 }
 
-form button {
+/* form button {
   background: var(--primary);
   border: 0;
   color: #fff;
@@ -208,7 +208,7 @@ form button {
 
 form button:hover {
   background: var(--primary)
-}
+} */
 
 div.error {
   padding: 10px;
@@ -241,7 +241,6 @@ nav a {
 nav a:hover {
   background-color: var(--primary);
   color: white;
-  border: 2px solid var(--offwhite);
 }
 
 nav span {
@@ -406,8 +405,6 @@ button {
 button:hover {
   background-color: var(--primary);
   color: white;
-  border: 2px solid var(--offwhite);
-
 }
 
 button:disabled {

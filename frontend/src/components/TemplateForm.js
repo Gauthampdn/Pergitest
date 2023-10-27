@@ -57,7 +57,7 @@ const TemplateForm = () => {
         "Content-Type": "application/json",
       },
     });
-    
+
 
     const json = await response.json();
     setIsSubmitting(false);
@@ -148,9 +148,9 @@ const TemplateForm = () => {
         </div>
       ))}
 
-<div>
-        <select 
-          value={selectedType} 
+      <div>
+        <select
+          value={selectedType}
           onChange={handleDropdownChange}
           className="dropdown"  // Use the CSS class
         >
