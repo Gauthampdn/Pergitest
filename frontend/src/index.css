@@ -126,8 +126,12 @@ body {
 }
 
 
+
+
+
+
 .template-full span {
-  top: 20px;
+  top: 30px;
   cursor: pointer;
   color: #333;
   transition: color 0.1s ease-in;
@@ -156,8 +160,13 @@ body {
 }
 
 .template-full h2 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+.template-full h3 {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 400;
   margin-bottom: 10px;
 }
 
