@@ -195,7 +195,7 @@ input {
 }
 
 form button {
-  background: var(--secondary);
+  background: var(--primary);
   border: 0;
   color: #fff;
   padding: 10px;
@@ -230,16 +230,16 @@ nav {
 
 nav a {
   margin-left: 10px;
-  border: 2px solid var(--secondary);
+  border: 2px solid var(--primary);
   border-radius: 8px;
   padding: 10px;
-  color: var(--secondary);
+  color: var(--primary);
   background-color: white;
   transition: color 0.08s ease-in-out, background-color 0.08s ease-in-out;
 }
 
 nav a:hover {
-  background-color: var(--secondary);
+  background-color: var(--primary);
   color: white;
 }
 
@@ -249,8 +249,8 @@ nav span {
 
 nav button {
   background: #fff;
-  color: var(--secondary);
-  border: 2px solid var(--secondary);
+  color: var(--primary);
+  border: 2px solid var(--primary);
   border-radius: 8px;
   padding: 8px;
   font-family: "Poppins";
@@ -343,7 +343,7 @@ nav .user-image {
 
 
 .tag.selected {
-  background-color: var(--secondary);
+  background-color: var(--primary);
   color: white;
 }
 
@@ -392,8 +392,8 @@ h3 {
 /* Styling for buttons */
 button {
   background: #fff;
-  color: var(--secondary);
-  border: 2px solid var(--secondary);
+  color: var(--primary);
+  border: 2px solid var(--primary);
   border-radius: 8px;
   padding: 8px;
   font-family: "Poppins";
@@ -403,7 +403,7 @@ button {
 }
 
 button:hover {
-  background-color: var(--secondary);
+  background-color: var(--primary);
   color: white;
 }
 
