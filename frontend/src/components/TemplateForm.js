@@ -82,7 +82,9 @@ const TemplateForm = () => {
 
   return (
     <form className="create" onSubmit={handleSubmit}>
-      <h3 className="back button">← Go Back</h3>
+      <a href="https://pergi.app" className="back button">
+        <h3>← Go Back</h3>
+      </a>
       <h3>Add New Template</h3>
 
       <label>Template Title:</label>
