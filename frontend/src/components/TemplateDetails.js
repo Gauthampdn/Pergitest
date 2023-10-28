@@ -270,7 +270,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
                 return (
                   <textarea
                     key={index}
-                    rows="5"  // You can set this to any number that suits your UI
+                    rows="1"  // You can set this to any number that suits your UI
                     placeholder={item.context}
                     value={textboxValues[index] || ''}
                     onChange={(e) => {
