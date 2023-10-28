@@ -177,6 +177,14 @@ body {
   margin-bottom: 20px;
 }
 
+.template-full h1, .template-full h2, .template-full h3 {
+  word-break: break-word;
+}
+
+.side-details h4 {
+  word-break: break-word;
+}
+
 
 label,
 textarea {

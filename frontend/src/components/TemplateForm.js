@@ -85,7 +85,7 @@ const TemplateForm = () => {
       <h3>Add New Template</h3>
 
       <label>Template Title:</label>
-      <input
+      <textarea
         type="text"
         onChange={(e) => setTitle(e.target.value)}
         value={title}
@@ -93,21 +93,21 @@ const TemplateForm = () => {
       />
 
       <label>Description:</label>
-      <input
+      <textarea
         type="text"
         onChange={(e) => setDescription(e.target.value)}
         value={description}
       />
 
       <label>Image URL:</label>
-      <input
+      <textarea
         type="text"
         onChange={(e) => setImage(e.target.value)}
         value={image}
       />
 
       <label>Icon:</label>
-      <input
+      <textarea
         type="text"
         onChange={(e) => setIcon(e.target.value)}
         value={icon}
@@ -118,7 +118,7 @@ const TemplateForm = () => {
           {item.type === "header" && (
             <>
               <label>Header:</label>
-              <input
+              <textarea
                 type="text"
                 value={item.context}
                 onChange={(e) => handleItemChange(index, e.target.value)}
@@ -128,7 +128,7 @@ const TemplateForm = () => {
           {item.type === "textbox" && (
             <>
               <label>Textbox Placeholder:</label>
-              <input
+              <textarea
                 type="text"
                 value={item.context}
                 onChange={(e) => handleItemChange(index, e.target.value)}
@@ -138,7 +138,7 @@ const TemplateForm = () => {
           {item.type === "selector" && (
             <>
               <label>Selector Options (comma separated):</label>
-              <input
+              <textarea
                 type="text"
                 value={item.context.join(',')}
                 onChange={(e) => handleItemChange(index, e.target.value.split(','))}
