@@ -45,10 +45,7 @@ const Login = () => {
       </div>
       <div className="login-content">
         <h1>WELCOME TO PERGI!</h1>
-        <GoogleButton
-          type="dark"
-          onClick={handleButtonClick}
-        />
+
         <img onClick={handleButtonClick} src="/glog.png" alt="google login" />
 
         <img src="/PergiLogopurp.png" alt="logo"/>
