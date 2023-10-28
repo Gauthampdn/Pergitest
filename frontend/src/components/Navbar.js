@@ -23,7 +23,6 @@ const Navbar = () => {
               <img src={user.picture} alt="" className="user-image" />
               <span>Welcome, {user.name}!</span>
               <button onClick={handleClick}> Log Out</button>
-
               <Link to="/create">Create</Link>
             </div>
             )

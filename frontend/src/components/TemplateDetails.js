@@ -266,20 +266,21 @@ const TemplateDetails = ({ template, onDeleted }) => {
           switch (item.type) {
             case "header":
               return <h3 key={index}>{item.context}</h3>;
-            case "textbox":
-              return (
-                <input
-                  key={index}
-                  type="text"
-                  placeholder={item.context}
-                  value={textboxValues[index] || ''}
-                  onChange={(e) => {
-                    const newValues = [...textboxValues];
-                    newValues[index] = e.target.value;
-                    setTextboxValues(newValues);
-                  }}
-                />
-              );
+              case "textbox":
+                return (
+                  <textarea
+                    key={index}
+                    rows="5"  // You can set this to any number that suits your UI
+                    placeholder={item.context}
+                    value={textboxValues[index] || ''}
+                    onChange={(e) => {
+                      const newValues = [...textboxValues];
+                      newValues[index] = e.target.value;
+                      setTextboxValues(newValues);
+                    }}
+                  />
+                );
+              
             case "selector":
               return (
                 <div key={index}>

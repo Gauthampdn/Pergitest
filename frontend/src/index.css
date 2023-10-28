@@ -48,7 +48,7 @@ body {
   display: grid;
   grid-auto-rows: min-content;
   gap: 5px;
-  width: 15%;
+  width: 20%;
   background-color: var(--primary);
   border-radius: 10px;
   height: auto;
@@ -75,7 +75,7 @@ body {
 }
 
 .side-details:hover {
-  background: #e3e3e3;
+  background: var(--offwhite);
 
 }
 
@@ -106,7 +106,7 @@ body {
 
 .templates {
   display: flex; 
-  width: 85%;
+  width: 80%;
   border-radius: 10px;
   height: auto;
 }
@@ -241,6 +241,8 @@ nav a {
 nav a:hover {
   background-color: var(--primary);
   color: white;
+  border: 2px solid var(--offwhite);
+
 }
 
 nav span {
@@ -275,7 +277,7 @@ nav .user-image {
 .login {
   display: flex;
   justify-content: space-between;
-  height: 100vh;
+  height: calc(100vh - 40px);
 }
 
 .login-image {
@@ -287,24 +289,14 @@ nav .user-image {
   /* This is needed so that the pseudo-element is positioned relative to this container */
 }
 
-.login-image::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 2%;
-  /* Adjust this width value if you want the fade effect to be more or less wide */
-  background: linear-gradient(to left, var(--offwhite), rgba(255, 255, 255, 0));
-  pointer-events: none;
-  /* Ensure this overlay doesn't interfere with any interactions */
-}
 
 
 .login-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 10px;
+
   /* This will ensure that the image covers the entire container, even if parts are cut off */
 }
 
@@ -316,6 +308,22 @@ nav .user-image {
   justify-content: center;
   align-items: center;
   padding: 20px;
+}
+
+.login-content h1 {
+  font-size: 40px;
+}
+
+.login-content h2 {
+  padding-bottom: 20px;
+  font-size: 20px;
+}
+
+.login-content img {
+  padding-bottom: 20px;
+  size: 20px;
+  height: 35px;
+
 }
 
 
@@ -333,25 +341,12 @@ nav .user-image {
 }
 
 
-
-
-
-
-
-
-
-
-
 .tag.selected {
   background-color: var(--primary);
   color: white;
 }
 
 
-
-/* TemplateForm.css */
-
-/* Styling for the dropdown */
 .dropdown {
   padding: 8px;
   font-size: 16px;
@@ -380,9 +375,6 @@ form.create {
   /* maintains the image's aspect ratio */
 }
 
-
-
-/* General styling for all h1, h2, h3 elements */
 h1,
 h2,
 h3 {
@@ -391,7 +383,7 @@ h3 {
 
 /* Styling for buttons */
 button {
-  background: #fff;
+  background-color: white;
   color: var(--primary);
   border: 2px solid var(--primary);
   border-radius: 8px;
@@ -405,6 +397,8 @@ button {
 button:hover {
   background-color: var(--primary);
   color: white;
+  border: 2px solid var(--offwhite);
+
 }
 
 button:disabled {
@@ -478,12 +472,7 @@ input[type="text"]:focus {
   margin-bottom: 10px;
 }
 
-/* Additional styling for the side details */
 
-
-
-
-/* Styling for the concatenated box */
 .concatenated-box {
   padding: 30px;
   background-color: #fff;
@@ -527,4 +516,9 @@ td {
 th,
 td {
   padding: 8px 12px;
+}
+
+
+.container {
+
 }
