@@ -340,10 +340,20 @@ nav .user-image {
 
 .login-content img {
   padding-bottom: 20px;
-  size: 20px;
-  height: 35px;
+  height: 45px;
 
 }
+/* Initial state of the image */
+.hoverable-image {
+  transition: transform 0.15s ease;
+  cursor: pointer; /* Change the cursor to pointer to indicate it's clickable */
+}
+
+/* Hover state of the image */
+.hoverable-image:hover {
+  transform: scale(1.03); /* This will make the image 5% bigger */
+}
+
 
 
 @media (max-width: 768px) {

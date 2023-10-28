@@ -45,10 +45,7 @@ const Login = () => {
       <div className="login-content">
         <h1>WELCOME TO PERGI!</h1>
 
-        <img onClick={handleButtonClick} src="/glog.png" alt="google login" />
-
-        <img src="/PergiLogopurp.png" alt="logo"/>
-
+        <img onClick={handleButtonClick} src="/glog.png" alt="google login" className="hoverable-image" />
         
       </div>
     </div>
