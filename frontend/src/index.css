@@ -145,13 +145,13 @@ body {
 
 /* Additional styling for the template details */
 .template-full h1 {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
 }
 
 .template-full h2 {
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 600;
   margin-bottom: 10px;
 }
 
