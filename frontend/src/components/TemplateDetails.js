@@ -55,7 +55,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
     if (isSubmitting) return; // prevent further actions if isSubmitting is true
 
     if (e.key === "Enter") {
-      
+
       setIsSubmitting(true);
       await updateConvo(interactText);
       setInteractText("");  // Clear the textbox after sending
@@ -173,7 +173,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       },
       body: JSON.stringify({ convos: [...updatedConvos, newContent] })
     });
-    
+
 
     if (response.ok) {
       const updatedTemplate = await response.json();
@@ -238,7 +238,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       },
       body: JSON.stringify({ convos: [] })
     });
-    
+
 
     if (response.ok) {
       const updatedTemplate = await response.json();
@@ -251,6 +251,11 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
   };
+
+  const adjustTextareaHeight = (element) => {
+    element.style.height = 'auto';
+    element.style.height = (element.scrollHeight) + 'px';
+  }
 
 
 
@@ -266,21 +271,24 @@ const TemplateDetails = ({ template, onDeleted }) => {
           switch (item.type) {
             case "header":
               return <h3 key={index}>{item.context}</h3>;
-              case "textbox":
-                return (
-                  <textarea
-                    key={index}
-                    rows="1"  // You can set this to any number that suits your UI
-                    placeholder={item.context}
-                    value={textboxValues[index] || ''}
-                    onChange={(e) => {
-                      const newValues = [...textboxValues];
-                      newValues[index] = e.target.value;
-                      setTextboxValues(newValues);
-                    }}
-                  />
-                );
-              
+            case "textbox":
+              return (
+                <textarea
+                  key={index}
+                  placeholder={item.context}
+                  value={textboxValues[index] || ''}
+                  onChange={(e) => {
+                    const newValues = [...textboxValues];
+                    newValues[index] = e.target.value;
+                    setTextboxValues(newValues);
+                    adjustTextareaHeight(e.target);
+                  }}
+                  onLoad={(e) => {
+                    adjustTextareaHeight(e.target);
+                  }}
+                />
+              );
+
             case "selector":
               return (
                 <div key={index}>
@@ -311,7 +319,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
       <div className="concatenated-box" ref={convosRef}>
-        <input
+        <textarea
           className="interact-text"
           type="text"
           placeholder="interact here"
