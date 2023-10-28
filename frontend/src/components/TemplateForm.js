@@ -82,6 +82,7 @@ const TemplateForm = () => {
 
   return (
     <form className="create" onSubmit={handleSubmit}>
+      <h3 className="back button">← Go Back</h3>
       <h3>Add New Template</h3>
 
       <label>Template Title:</label>
