@@ -23,7 +23,102 @@ const defaultTemplates = [
       }
     ],
   },
-  // ... you can add more default templates here if needed
+  {
+    title: "Professional Email Editing",
+    description: "Edit your professional emails with ease.",
+    image: "",
+    icon: "",
+    template: [
+      {
+        type: "header",
+        context: "Subject Line",
+      },
+      {
+        type: "textbox",
+        context: "Compose your email here...",
+      },
+      {
+        type: "textbox",
+        context: "Additional notes or instructions...",
+      },
+      {
+        type: "header",
+        context: "Review and Send",
+      },
+    ],
+  },
+  {
+    title: "Cover Letter Editing",
+    description: "Edit your cover letter professionally.",
+    image: "",
+    icon: "",
+    template: [
+      {
+        type: "header",
+        context: "Job Title and Company",
+      },
+      {
+        type: "textbox",
+        context: "Compose your cover letter here...",
+      },
+      {
+        type: "textbox",
+        context: "Additional notes or instructions...",
+      },
+      {
+        type: "header",
+        context: "Review and Finalize",
+      },
+    ],
+  },
+  {
+    title: "Recipe Maker",
+    description: "Create your own recipes with ingredients.",
+    image: "",
+    icon: "",
+    template: [
+      {
+        type: "header",
+        context: "Recipe Title",
+      },
+      {
+        type: "textbox",
+        context: "List of ingredients (separated by commas)",
+      },
+      {
+        type: "textbox",
+        context: "Step-by-step instructions...",
+      },
+      {
+        type: "header",
+        context: "Cooking Tips",
+      },
+    ],
+  },
+  {
+    title: "Explain Code Template",
+    description: "Describe code functionality and usage.",
+    image: "",
+    icon: "",
+    template: [
+      {
+        type: "header",
+        context: "Code Title",
+      },
+      {
+        type: "textbox",
+        context: "Insert your code here...",
+      },
+      {
+        type: "textbox",
+        context: "Additional notes or instructions...",
+      },
+      {
+        type: "header",
+        context: "Explanation and Usage",
+      },
+    ],
+  },
 ];
 
 module.exports = defaultTemplates;
