@@ -180,11 +180,11 @@ body {
 
 
 label,
-input {
+textarea {
   display: block;
 }
 
-input {
+textarea {
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -219,7 +219,7 @@ div.error {
   margin: 20px 0;
 }
 
-input.error {
+textarea.error {
   border: 1px solid var(--error);
 }
 
@@ -449,8 +449,8 @@ a:hover {
 
 
 
-/* Styling for input fields */
-input[type="text"] {
+/* Styling for textarea fields */
+textarea[type="text"] {
   padding: 10px;
   width: 100%;
   border: 1px solid #ccc;
@@ -458,7 +458,7 @@ input[type="text"] {
   transition: border-color 0.3s ease;
 }
 
-input[type="text"]:focus {
+textarea[type="text"]:focus {
   border-color: var(--primary);
   outline: none;
 }
