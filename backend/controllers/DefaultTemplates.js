@@ -31,20 +31,13 @@ const defaultTemplates = [
     template: [
       {
         type: "header",
-        context: "Subject Line",
+        context: "Edit this professional emails to make it sound more coherent:",
       },
       {
         type: "textbox",
         context: "Compose your email here...",
       },
-      {
-        type: "textbox",
-        context: "Additional notes or instructions...",
-      },
-      {
-        type: "header",
-        context: "Review and Send",
-      },
+
     ],
   },
   {

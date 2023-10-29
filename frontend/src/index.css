@@ -385,13 +385,6 @@ nav .user-image {
 }
 
 
-form.create {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 40px;
-  background: #fff;
-  border-radius: 20px;
-}
 
 .LogoImage {
   display: block;
@@ -534,5 +527,63 @@ td {
   padding: 8px 12px;
 }
 
+.full-create {
+  display: flex;
+  justify-content: space-between; /* Add some space between form and preview */
+  align-items: flex-start;
+  height: calc(100vh - 120px); 
+}
 
-.container {}
+form.create, .live-template-preview {
+  padding: 40px;
+  background: #fff;
+  flex: 1; /* It takes up the available space */
+  overflow-y: auto; /* Enables scrolling */
+  border-radius: 20px; /* Gives rounded corners */
+  height: calc(100vh - 120px);
+}
+
+.live-template-preview {
+  margin-left: 20px; /* Space between form and preview */
+}
+
+
+.live-template-preview h4 {
+  font-size: 24px;
+  font-weight: 600;
+} 
+.live-template-preview h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.live-template-preview h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.live-template-preview h3 {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.live-template-preview p {
+  font-size: 12px;
+  font-weight: 300;
+  margin-bottom: 20px;
+  margin: 0;
+  font-size: 10px;
+  color: #555;
+}
+
+.live-template-preview h1,
+.live-template-preview h2,
+.live-template-preview h3 {
+  word-break: break-word;
+}
+
+.side-details h4 {
+  word-break: break-word;
+}

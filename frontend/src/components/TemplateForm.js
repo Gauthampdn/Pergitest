@@ -80,7 +80,39 @@ const TemplateForm = () => {
     }
   };
 
+  const LiveTemplatePreview = () => {
+    return (
+      <div className="live-template-preview">
+        <h4>Live Preview:</h4>
+        <hr/>
+        <h1>{title}</h1>
+        <h2>{description}</h2>
+        {templateItems.map((item, index) => {
+          switch (item.type) {
+            case "header":
+              return <h3 key={index}>{item.context}</h3>;
+            case "textbox":
+              return <textarea key={index} placeholder={item.context} readOnly />;
+            case "selector":
+              return (
+                <div key={index}>
+                  {item.context.map((option, idx) => (
+                    <span key={idx} className="tag">
+                      {option}
+                    </span>
+                  ))}
+                </div>
+              );
+            default:
+              return null;
+          }
+        })}
+      </div>
+    );
+  };  
+
   return (
+    <div className="full-create">
     <form className="create" onSubmit={handleSubmit}>
       <a href="https://pergi.app" className="back button">
         <h3>← Go Back</h3>
@@ -168,7 +200,10 @@ const TemplateForm = () => {
         {isSubmitting ? "Loading..." : "Add Template"}
       </button>
       {error && <div className="error">{error}</div>}
+
     </form>
+    <LiveTemplatePreview/>
+    </div>
   );
 };
 
