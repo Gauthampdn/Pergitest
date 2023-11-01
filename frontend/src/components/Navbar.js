@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -8,6 +8,13 @@ const Navbar = () => {
   const { logout } = useLogout()
   const { user } = useAuthContext()
 
+
+  const navigate = useNavigate();
+
+  const handleCreateClick = () => {
+    navigate('/create');
+  };
+
   const handleClick = () => {
     logout()
   }
@@ -15,25 +22,32 @@ const Navbar = () => {
   return (
 
     <header>
-      <div className="container">
-
+      <div className="navbar">
         <nav>
-          {user &&
-            (<div>
-              <img src={user.picture} alt="" className="user-image" />
-              <span>Welcome, {user.name}!</span>
-              <button onClick={handleClick}> Log Out</button>
-              <Link to="/create">Create</Link>
+          {user && (
+            <div className="user-info">
+              <img src={user.picture} alt={user.name} className="user-image" />
+              <div className="user-details">
+                <span>Welcome,</span>
+                <span>{user.name.length > 15 ? `${user.name.substring(0, 15)}...` : user.name}</span>
+              </div>
             </div>
-            )
-          }
-          {!user &&
-            (<div>
-            </div>)
-          }
+          )}
+          {user && (
+            <div className="buttons-container">
+              <button onClick={handleClick}>Logout</button>
+              <button onClick={handleCreateClick}>CREATE!!!</button>
+            </div>
+          )}
+          {!user && (
+            <div>
+              {/* Possibly content for non-logged-in users */}
+            </div>
+          )}
         </nav>
       </div>
     </header>
+
 
   );
 }
