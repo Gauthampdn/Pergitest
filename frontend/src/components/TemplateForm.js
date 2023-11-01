@@ -83,7 +83,7 @@ const TemplateForm = () => {
   const LiveTemplatePreview = () => {
     return (
       <div className="live-template-preview">
-        <h4>Live Preview:</h4>
+        <h4 className="preview-text">Live Preview:</h4>
         <hr/>
         <h1>{title}</h1>
         <h2>{description}</h2>

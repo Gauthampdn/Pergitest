@@ -521,6 +521,10 @@ form.create, .live-template-preview {
   margin-left: 20px; /* Space between form and preview */
 }
 
+.preview-text{
+  color: var(--primary);
+}
+
 
 .live-template-preview h4 {
   font-size: 24px;

@@ -10,7 +10,7 @@ require("dotenv").config();
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://bcknd.pergi.app/auth/redirect/google", // somehow this is appending /undefined after ENV
+  callbackURL: "https://bcknd.pergi.app/auth/redirect/google", // somehow this is appending /undefined after ENV so i hardcoded it
   passReqToCallback: true
 },
 
