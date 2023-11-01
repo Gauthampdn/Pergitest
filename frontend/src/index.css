@@ -56,6 +56,10 @@ body {
   height: auto;
 
 }
+.side-scrollable {
+  height: auto; /* Or any height that fits your layout */
+  overflow-y: auto; /* This will enable scrolling */
+}
 
 .centered-header {
   text-align: center;
@@ -387,7 +391,7 @@ button:disabled {
 
 .backbutton{
   color: black;
-  
+
 }
 
 .backbutton:hover{
@@ -579,9 +583,6 @@ form.create, .live-template-preview {
   flex-direction: column; /* Stack welcome and name vertically */
   margin-left: 10px; /* Space between image and text */
 }
-
-
-
 
 nav {
   color: white;
