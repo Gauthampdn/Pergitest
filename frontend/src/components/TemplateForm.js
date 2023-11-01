@@ -83,7 +83,7 @@ const TemplateForm = () => {
   const LiveTemplatePreview = () => {
     return (
       <div className="live-template-preview">
-        <h4 className="preview-text">Live Preview:</h4>
+        <h4>Live Preview:</h4>
         <hr/>
         <h1>{title}</h1>
         <h2>{description}</h2>
@@ -127,6 +127,8 @@ const TemplateForm = () => {
         onChange={(e) => setTitle(e.target.value)}
         value={title}
         className={emptyFields.includes("title") ? "error" : ""}
+        placeholder="A simple title for this template"
+
       />
 
       <label>Description:</label>
@@ -134,9 +136,10 @@ const TemplateForm = () => {
         type="text"
         onChange={(e) => setDescription(e.target.value)}
         value={description}
+        placeholder="A mini description of what this template does"
       />
 
-      <label>Image URL:</label>
+      {/* <label>Image URL:</label>
       <textarea
         type="text"
         onChange={(e) => setImage(e.target.value)}
@@ -148,7 +151,7 @@ const TemplateForm = () => {
         type="text"
         onChange={(e) => setIcon(e.target.value)}
         value={icon}
-      />
+      /> */}
 
       {templateItems.map((item, index) => (
         <div key={index}>
