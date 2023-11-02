@@ -21,7 +21,7 @@ const Home = () => {
       const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates`, {
         credentials: 'include'
       });
-      
+
 
       const json = await response.json();
 
@@ -48,11 +48,14 @@ const Home = () => {
   return (
     <div className="home">
       <div className="side side-scrollable">
+        <a href="https://home.pergi.app/" target="_blank" rel="noopener noreferrer">
+          <h1 className="centered-header">Pergi</h1>
+        </a>
+        <a href="https://forms.gle/WcCG1oUesh9h2Him7" target="_blank" rel="noopener noreferrer">
+          <p className="centered-para">Send us feedback and issues ↗</p>
+        </a>
 
-        <Link to="https://home.pergi.app/">
-          <h1 className="centered-header"> Pergi </h1>
-        </Link>
-        
+
 
 
         {templates && templates.map(template => (
@@ -63,7 +66,7 @@ const Home = () => {
           />
 
         ))}
-      
+
         <Navbar />
       </div>
 
