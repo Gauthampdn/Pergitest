@@ -13,7 +13,7 @@ const defaultTemplates = [
         type: "textbox",
         context: "Paste email here",
       }
-    ],
+    ]
   },
   {
     title: "Cover Letter Editing",
@@ -28,8 +28,8 @@ const defaultTemplates = [
       {
         type: "textbox",
         context: "Cover letter here",
-      },
-    ],
+      }
+    ]
   },
   {
     title: "Explainer",
@@ -48,8 +48,8 @@ const defaultTemplates = [
       {
         type: "selector",
         context: [". Be concise", ". Explain thouroughly"],
-      },
-    ],
+      }
+    ]
   },
   {
     title: "Essay Improver",
@@ -87,8 +87,8 @@ const defaultTemplates = [
       {
         type: "selector",
         context: ["Be concise ", "Use sophisticated vocab", "Expand on the ideas more"],
-      },
-    ],
+      }
+    ]
   },
   {
     title: "Pergi Tutorial",
@@ -112,8 +112,8 @@ const defaultTemplates = [
         type: "header",
         context: "Lastly click submit to send the full message to the AI",
       }
-    ],
-  },
+    ]
+  }
 ];
 
 module.exports = defaultTemplates;
