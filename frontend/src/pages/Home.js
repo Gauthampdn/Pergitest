@@ -47,7 +47,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="side">
+      <div className="side side-scrollable">
 
         <Link to="https://home.pergi.app/">
           <h1 className="centered-header"> Pergi </h1>
@@ -63,6 +63,7 @@ const Home = () => {
           />
 
         ))}
+      
         <Navbar />
       </div>
 

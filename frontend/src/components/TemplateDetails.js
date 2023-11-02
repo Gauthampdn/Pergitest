@@ -261,7 +261,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
   return (
     <div className="template-container">
-      <div className="template-full">
+      <div className="template-full side-scrollable">
         <h1>{template.title}</h1>
         <h2>{template.description}</h2>
         <p>{formatDistanceToNow(new Date(template.createdAt), { addSuffix: true })}</p>
