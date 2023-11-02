@@ -81,7 +81,7 @@ const defaultTemplates = [
         context: "suggestions",
       },
       {
-        type: "headers",
+        type: "header",
         context: "Also do the following:",
       },
       {
