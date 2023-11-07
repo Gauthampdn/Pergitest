@@ -70,27 +70,24 @@ const TemplateDetails = ({ template, onDeleted }) => {
     setConvos(template.convos);
   }, [template]);
 
-  // useEffect(() => {
-  //   if (!manualScroll && convosRef.current) {
-  //     convosRef.current.scrollTop = convosRef.current.scrollHeight;
-  //   }
-  // }, [convos]);
-
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const container = convosRef.current;
-  //     const isNearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 20; // 10px leeway
-
-  //     setManualScroll(!isNearBottom);
-  //   };
-
-  //   convosRef.current.addEventListener('scroll', handleScroll);
-
-  //   return () => {
-  //     convosRef.current.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      const container = convosRef.current;
+      const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight <= 20;
+      setManualScroll(!isNearBottom);
+    };
+  
+    if (!manualScroll && convosRef.current) {
+      convosRef.current.scrollTop = convosRef.current.scrollHeight;
+    }
+  
+    const container = convosRef.current;
+    container.addEventListener('scroll', handleScroll);
+  
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [convos, manualScroll]);
 
 
 
