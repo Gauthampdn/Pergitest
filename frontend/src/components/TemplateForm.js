@@ -16,6 +16,12 @@ const TemplateForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedType, setSelectedType] = useState(""); // For dropdown selection
 
+
+  const handleDeleteItem = (index) => {
+    setTemplateItems((prevItems) => prevItems.filter((item, i) => i !== index));
+  };
+
+
   const handleDropdownChange = (e) => {
     const type = e.target.value;
     if (type) {
@@ -84,7 +90,7 @@ const TemplateForm = () => {
     return (
       <div className="live-template-preview">
         <h4>Live Preview:</h4>
-        <hr/>
+        <hr />
         <h1>{title}</h1>
         <h2>{description}</h2>
         {templateItems.map((item, index) => {
@@ -109,37 +115,37 @@ const TemplateForm = () => {
         })}
       </div>
     );
-  };  
+  };
 
   return (
     <div className="full-create">
-    <form className="create" onSubmit={handleSubmit}>
-      <a href="https://pergi.app" className="backbutton">
-        <h3>← Go Back</h3>
-      </a>
+      <form className="create" onSubmit={handleSubmit}>
+        <a href="https://pergi.app" className="backbutton">
+          <h3>← Go Back</h3>
+        </a>
 
-      
-      <h3>Add New Template</h3>
 
-      <label>Template Title:</label>
-      <textarea
-        type="text"
-        onChange={(e) => setTitle(e.target.value)}
-        value={title}
-        className={emptyFields.includes("title") ? "error" : ""}
-        placeholder="A simple title for this template"
+        <h3>Add New Template</h3>
 
-      />
+        <label>Template Title:</label>
+        <textarea
+          type="text"
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+          className={emptyFields.includes("title") ? "error" : ""}
+          placeholder="A simple title for this template"
 
-      <label>Description:</label>
-      <textarea
-        type="text"
-        onChange={(e) => setDescription(e.target.value)}
-        value={description}
-        placeholder="A mini description of what this template does"
-      />
+        />
 
-      {/* <label>Image URL:</label>
+        <label>Description:</label>
+        <textarea
+          type="text"
+          onChange={(e) => setDescription(e.target.value)}
+          value={description}
+          placeholder="A mini description of what this template does"
+        />
+
+        {/* <label>Image URL:</label>
       <textarea
         type="text"
         onChange={(e) => setImage(e.target.value)}
@@ -153,61 +159,72 @@ const TemplateForm = () => {
         value={icon}
       /> */}
 
-      {templateItems.map((item, index) => (
-        <div key={index}>
-          {item.type === "header" && (
-            <>
-              <label>Header:</label>
-              <textarea
-                type="text"
-                value={item.context}
-                onChange={(e) => handleItemChange(index, e.target.value)}
-              />
-            </>
-          )}
-          {item.type === "textbox" && (
-            <>
-              <label>Textbox Placeholder:</label>
-              <textarea
-                type="text"
-                value={item.context}
-                onChange={(e) => handleItemChange(index, e.target.value)}
-              />
-            </>
-          )}
-          {item.type === "selector" && (
-            <>
-              <label>Selector Options (comma separated):</label>
-              <textarea
-                type="text"
-                value={item.context.join(',')}
-                onChange={(e) => handleItemChange(index, e.target.value.split(','))}
-              />
-            </>
-          )}
+        {templateItems.map((item, index) => (
+          <div key={index} className="item-row">
+            <div className="item-content">
+              {item.type === "header" && (
+                <>
+                  <label>Header:</label>
+                  <textarea
+                    type="text"
+                    value={item.context}
+                    onChange={(e) => handleItemChange(index, e.target.value)}
+                  />
+                </>
+              )}
+              {item.type === "textbox" && (
+                <>
+                  <label>Textbox Placeholder:</label>
+                  <textarea
+                    type="text"
+                    value={item.context}
+                    onChange={(e) => handleItemChange(index, e.target.value)}
+                  />
+                </>
+              )}
+              {item.type === "selector" && (
+                <>
+                  <label>Selector Options (comma separated):</label>
+                  <textarea
+                    type="text"
+                    value={item.context.join(',')}
+                    onChange={(e) => handleItemChange(index, e.target.value.split(','))}
+                  />
+                </>
+              )}
+            </div>
+            <span
+              className="material-symbols-outlined delete-icon"
+              onClick={() => handleDeleteItem(index)}
+              role="button"
+              aria-label={`Delete ${item.type}`}
+            >
+              delete
+            </span>
+          </div>
+        ))}
+
+
+        <div>
+          <select
+            value={selectedType}
+            onChange={handleDropdownChange}
+            className="dropdown"  // Use the CSS class
+          >
+            <option value="">Add Item...</option>
+            <option value="header">Header</option>
+            <option value="textbox">Textbox</option>
+            <option value="selector">Selector</option>
+          </select>
         </div>
-      ))}
 
-      <div>
-        <select
-          value={selectedType}
-          onChange={handleDropdownChange}
-          className="dropdown"  // Use the CSS class
-        >
-          <option value="">Add Item...</option>
-          <option value="header">Header</option>
-          <option value="textbox">Textbox</option>
-          <option value="selector">Selector</option>
-        </select>
-      </div>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? "Loading..." : "Add Template"}
+        </button>
+        {error && <div className="error">{error}</div>}
 
-      <button disabled={isSubmitting}>
-        {isSubmitting ? "Loading..." : "Add Template"}
-      </button>
-      {error && <div className="error">{error}</div>}
-
-    </form>
-    <LiveTemplatePreview/>
+      </form>
+      <LiveTemplatePreview />
     </div>
   );
 };
