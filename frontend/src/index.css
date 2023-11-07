@@ -3,6 +3,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 
+
+
+::-webkit-scrollbar {
+  width: 12px; /* You can set the width as per your preference */
+  background-color: var(--white); /* White background color */
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+}
+
+/* This styles the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary); /* Red thumb color */
+  border-radius: 6px; /* Optional: if you want rounded corners */
+  border: 3.75px solid white; /* Optional: if you want a slight space between the track and thumb */
+}
+
+
 /* Variables */
 :root {
   --color1: #a1633c;
