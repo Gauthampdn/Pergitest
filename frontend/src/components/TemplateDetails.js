@@ -21,6 +21,15 @@ const TemplateDetails = ({ template, onDeleted }) => {
   const { user } = useAuthContext();
   const convosRef = useRef(null);
   const [manualScroll, setManualScroll] = useState(false);
+  const [textboxValues, setTextboxValues] = useState([]);
+  const [selectedTagsList, setSelectedTagsList] = useState([]);
+  const [convos, setConvos] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [iconState, setIconState] = useState("content_copy");  // New state
+  const [interactText, setInteractText] = useState("");
+  const [isEditing, setIsEditing] = useState(false); // New state for editing mode
+  const [editableTemplate, setEditableTemplate] = useState(template.template); // New state for editable template
+  const [tempEditableTemplate, setTempEditableTemplate] = useState(template.template);
 
 
 
@@ -41,15 +50,36 @@ const TemplateDetails = ({ template, onDeleted }) => {
     }
   };
 
+  const handleEdit = () => {
+    if (isEditing) {
+      setEditableTemplate(tempEditableTemplate);
+      handleSubmitEdit();
+    } else {
+      setTempEditableTemplate(editableTemplate);
+    }
+    setIsEditing(!isEditing);
+  };
 
 
-  const [textboxValues, setTextboxValues] = useState([]);
-  const [selectedTagsList, setSelectedTagsList] = useState([]);
-  const [convos, setConvos] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [iconState, setIconState] = useState("content_copy");  // New state
-  const [interactText, setInteractText] = useState("");
 
+  const handleSubmitEdit = async () => {
+    const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
+      credentials: 'include',
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ template: editableTemplate })
+    });
+
+    if (response.ok) {
+      const updatedTemplate = await response.json();
+      dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
+      // Update local template state if needed
+    } else {
+      console.error("Failed to update template");
+    }
+  };
 
   const handleInteractKeyPress = async (e) => {
     if (isSubmitting) return; // prevent further actions if isSubmitting is true
@@ -60,15 +90,10 @@ const TemplateDetails = ({ template, onDeleted }) => {
       await updateConvo(interactText);
       setInteractText("");  // Clear the textbox after sending
       setIsSubmitting(false);
-
-
     }
   };
 
 
-  useEffect(() => {
-    setConvos(template.convos);
-  }, [template]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,18 +101,24 @@ const TemplateDetails = ({ template, onDeleted }) => {
       const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight <= 20;
       setManualScroll(!isNearBottom);
     };
-  
+
     if (!manualScroll && convosRef.current) {
       convosRef.current.scrollTop = convosRef.current.scrollHeight;
     }
-  
+
     const container = convosRef.current;
     container.addEventListener('scroll', handleScroll);
-  
+
     return () => {
       container.removeEventListener('scroll', handleScroll);
     };
   }, [convos, manualScroll]);
+
+  useEffect(() => {
+    setEditableTemplate(template.template);
+    setConvos(template.convos);
+  }, [template]);
+  
 
 
 
@@ -145,8 +176,8 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo-1106",
-      temperature: 0,
+      model: "gpt-4-1106-preview",
+      temperature: 1,
       messages: updatedConvos,
       stream: true,
     });
@@ -221,7 +252,17 @@ const TemplateDetails = ({ template, onDeleted }) => {
     setIsSubmitting(false);
   };
 
+  const handleDeleteItem = (index) => {
+    const newTemplate = tempEditableTemplate.filter((_, idx) => idx !== index);
+    setTempEditableTemplate(newTemplate);
+  };
 
+  const addTagToSelector = (selectorIndex) => {
+    const newTemplate = [...editableTemplate];
+    newTemplate[selectorIndex].context.push('');
+    setEditableTemplate(newTemplate);
+  };
+  
 
   const handleResetConvo = async (e) => {
     console.log(process.env.REACT_APP_API_TRIAL)
@@ -244,9 +285,6 @@ const TemplateDetails = ({ template, onDeleted }) => {
     } else {
       console.error("Failed to save convo");
     }
-
-
-
   };
 
   const adjustTextareaHeight = (element) => {
@@ -254,72 +292,98 @@ const TemplateDetails = ({ template, onDeleted }) => {
     element.style.height = (element.scrollHeight) + 'px';
   }
 
-
-
   return (
     <div className="template-container">
       <div className="template-full side-scrollable">
         <h1>{template.title}</h1>
         <h2>{template.description}</h2>
         <p>{formatDistanceToNow(new Date(template.createdAt), { addSuffix: true })}</p>
-
-
-        {template.template.map((item, index) => {
+  
+        {editableTemplate.map((item, index) => {
           switch (item.type) {
             case "header":
-              return <h3 key={index}>{item.context}</h3>;
-            case "textbox":
               return (
-                <textarea
+                <h3
                   key={index}
-                  placeholder={item.context}
-                  value={textboxValues[index] || ''}
-                  onChange={(e) => {
-                    const newValues = [...textboxValues];
-                    newValues[index] = e.target.value;
-                    setTextboxValues(newValues);
-                    adjustTextareaHeight(e.target);
+                  contentEditable={isEditing}
+                  onBlur={(e) => {
+                    const newTemplate = [...editableTemplate];
+                    newTemplate[index].context = e.target.innerText;
+                    setEditableTemplate(newTemplate);
                   }}
-                  onLoad={(e) => {
-                    adjustTextareaHeight(e.target);
-                  }}
-                />
+                  suppressContentEditableWarning={true}
+                >
+                  {item.context}
+                </h3>
               );
-
+              case "textbox":
+                return (
+                  <div key={index}>
+                    {isEditing ? (
+                      <textarea
+                        value={item.context}
+                        onChange={(e) => {
+                          const newTemplate = [...editableTemplate];
+                          newTemplate[index].context = e.target.value;
+                          setEditableTemplate(newTemplate);
+                        }}
+                        className="editable-placeholder"
+                      />
+                    ) : (
+                      <textarea
+                        placeholder={item.context}
+                        value={textboxValues[index] || ''}
+                        onChange={(e) => {
+                          const newValues = [...textboxValues];
+                          newValues[index] = e.target.value;
+                          setTextboxValues(newValues);
+                        }}
+                      />
+                    )}
+                  </div>
+                );
             case "selector":
               return (
                 <div key={index}>
                   {item.context.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
+                      contentEditable={isEditing}
+                      onBlur={(e) => {
+                        const newTemplate = [...editableTemplate];
+                        newTemplate[index].context[tagIndex] = e.target.innerText;
+                        setEditableTemplate(newTemplate);
+                      }}
+                      suppressContentEditableWarning={true}
                       className={`tag ${selectedTagsList[index] && selectedTagsList[index].includes(tag) ? 'selected' : ''}`}
-                      onClick={() => handleTagClick(tag, index)}
                     >
                       {tag}
                     </span>
                   ))}
+                  {isEditing && <button onClick={() => addTagToSelector(index)}>Add Tag</button>}
                 </div>
               );
             default:
               return null;
           }
         })}
-
-        <button disabled={isSubmitting} onClick={handleSubmit}>
-          {isSubmitting ? "Loading..." : "Submit"}
+  
+        <button disabled={isSubmitting} onClick={isEditing ? handleEdit : handleSubmit}>
+          {isSubmitting ? "Loading..." : (isEditing ? "Done" : "Submit")}
+        </button>
+        <button onClick={handleEdit}>
+          {isEditing ? "Cancel" : "Edit"}
         </button>
         <span className="material-symbols-outlined" onClick={handleDelete}> delete </span>
         <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
         <span className="material-symbols-outlined" onClick={handleCopyContent}> {iconState} </span>
       </div>
-
-
-
+  
       <div className="concatenated-box" ref={convosRef}>
         <textarea
           className="interact-text"
           type="text"
-          placeholder="interact here"
+          placeholder="Interact here"
           value={interactText}
           onChange={e => setInteractText(e.target.value)}
           onKeyPress={handleInteractKeyPress}
@@ -330,10 +394,11 @@ const TemplateDetails = ({ template, onDeleted }) => {
             <ReactMarkdown remarkPlugins={[remarkGfm]} children={convo.content} />
           </div>
         ))}
-
       </div>
     </div>
   );
+  
+
 }
 
 export default TemplateDetails;
