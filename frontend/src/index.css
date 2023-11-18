@@ -380,7 +380,16 @@ div.error {
   border: 1px solid #ccc;
   margin-bottom: 10px;
 }
+.item-row {
+  display: flex; /* Aligns children inline */
+  align-items: center; /* Aligns children vertically */
+  justify-content: space-between; /* Puts maximum space between children */
+  margin-bottom: 10px; /* Adds some space between item rows */
+}
 
+.item-content {
+  flex-grow: 1; /* Allows the content to grow and take available space */
+}
 
 
 .LogoImage {
@@ -462,7 +471,7 @@ a:hover {
   font-size: 20px;
   margin-left: 10px;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.18s ease;
 }
 
 .material-symbols-outlined:hover {
