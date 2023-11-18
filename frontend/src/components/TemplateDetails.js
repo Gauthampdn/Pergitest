@@ -177,7 +177,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4-1106-preview",
-      temperature: 1,
+      temperature: 0,
       messages: updatedConvos,
       stream: true,
     });
