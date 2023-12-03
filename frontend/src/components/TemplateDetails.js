@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow as style } from 'react-syntax-highlighter/dist/esm/styles/prism';
-;
+
 
 const OpenAI = require('openai');
 
@@ -51,18 +51,19 @@ const TemplateDetails = ({ template, onDeleted }) => {
   };
 
   const handleEdit = () => {
-    if (isEditing) {
-      setEditableTemplate(tempEditableTemplate);
-      handleSubmitEdit();
-    } else {
-      setTempEditableTemplate(editableTemplate);
-    }
-    setIsEditing(!isEditing);
+    // Use JSON to deep copy the editableTemplate
+    setTempEditableTemplate(JSON.parse(JSON.stringify(editableTemplate)));
+    setIsEditing(true);
   };
-
-
-
+  
+  const handleCancelEdit = () => {
+    // Reset editableTemplate to the state stored in tempEditableTemplate
+    setEditableTemplate(JSON.parse(JSON.stringify(tempEditableTemplate)));
+    setIsEditing(false);
+  };
+  
   const handleSubmitEdit = async () => {
+    setIsEditing(false); // Exit editing mode
     const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
       credentials: 'include',
       method: "PATCH",
@@ -118,13 +119,13 @@ const TemplateDetails = ({ template, onDeleted }) => {
     setEditableTemplate(template.template);
     setConvos(template.convos);
   }, [template]);
-  
+
 
 
 
   const handleTagClick = (tag, selectorIndex) => {
     setSelectedTagsList((prevTagsList) => {
-      const updatedTagsList = JSON.parse(JSON.stringify(prevTagsList));
+      const updatedTagsList = [...prevTagsList];
       const currentTags = updatedTagsList[selectorIndex] || [];
       if (currentTags.includes(tag)) {
         currentTags.splice(currentTags.indexOf(tag), 1);
@@ -135,6 +136,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       return updatedTagsList;
     });
   };
+
 
 
   const concatenateText = () => {
@@ -262,7 +264,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
     newTemplate[selectorIndex].context.push('');
     setEditableTemplate(newTemplate);
   };
-  
+
 
   const handleResetConvo = async (e) => {
     console.log(process.env.REACT_APP_API_TRIAL)
@@ -298,7 +300,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
         <h1>{template.title}</h1>
         <h2>{template.description}</h2>
         <p>{formatDistanceToNow(new Date(template.createdAt), { addSuffix: true })}</p>
-  
+
         {editableTemplate.map((item, index) => {
           switch (item.type) {
             case "header":
@@ -316,38 +318,40 @@ const TemplateDetails = ({ template, onDeleted }) => {
                   {item.context}
                 </h3>
               );
-              case "textbox":
-                return (
-                  <div key={index}>
-                    {isEditing ? (
-                      <textarea
-                        value={item.context}
-                        onChange={(e) => {
-                          const newTemplate = [...editableTemplate];
-                          newTemplate[index].context = e.target.value;
-                          setEditableTemplate(newTemplate);
-                        }}
-                        className="editable-placeholder"
-                      />
-                    ) : (
-                      <textarea
-                        placeholder={item.context}
-                        value={textboxValues[index] || ''}
-                        onChange={(e) => {
-                          const newValues = [...textboxValues];
-                          newValues[index] = e.target.value;
-                          setTextboxValues(newValues);
-                        }}
-                      />
-                    )}
-                  </div>
-                );
+            case "textbox":
+              return (
+                <div key={index}>
+                  {isEditing ? (
+                    <textarea
+                      value={item.context}
+                      onChange={(e) => {
+                        const newTemplate = [...editableTemplate];
+                        newTemplate[index].context = e.target.value;
+                        setEditableTemplate(newTemplate);
+                      }}
+                      className="editable-placeholder"
+                    />
+                  ) : (
+                    <textarea
+                      placeholder={item.context}
+                      value={textboxValues[index] || ''}
+                      onChange={(e) => {
+                        const newValues = [...textboxValues];
+                        newValues[index] = e.target.value;
+                        setTextboxValues(newValues);
+                      }}
+                    />
+                  )}
+                </div>
+              );
             case "selector":
               return (
                 <div key={index}>
                   {item.context.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
+                      className={`tag ${selectedTagsList[index] && selectedTagsList[index].includes(tag) ? 'selected' : ''}`}
+                      onClick={() => handleTagClick(tag, index)}
                       contentEditable={isEditing}
                       onBlur={(e) => {
                         const newTemplate = [...editableTemplate];
@@ -355,7 +359,6 @@ const TemplateDetails = ({ template, onDeleted }) => {
                         setEditableTemplate(newTemplate);
                       }}
                       suppressContentEditableWarning={true}
-                      className={`tag ${selectedTagsList[index] && selectedTagsList[index].includes(tag) ? 'selected' : ''}`}
                     >
                       {tag}
                     </span>
@@ -363,22 +366,32 @@ const TemplateDetails = ({ template, onDeleted }) => {
                   {isEditing && <button onClick={() => addTagToSelector(index)}>Add Tag</button>}
                 </div>
               );
+
             default:
               return null;
           }
         })}
-  
-        <button disabled={isSubmitting} onClick={isEditing ? handleEdit : handleSubmit}>
-          {isSubmitting ? "Loading..." : (isEditing ? "Done" : "Submit")}
-        </button>
-        <button onClick={handleEdit}>
-          {isEditing ? "Cancel" : "Edit"}
-        </button>
+
+        {!isEditing && (
+          <button onClick={handleSubmit}>Submit</button>
+        )}
+
+        {isEditing ? (
+          <>
+            <button onClick={handleSubmitEdit}>Done</button>
+            <button onClick={handleCancelEdit}>Cancel</button>
+          </>
+        ) : (
+          <button onClick={handleEdit}>Edit</button>
+        )}
+
+
+
         <span className="material-symbols-outlined" onClick={handleDelete}> delete </span>
         <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
         <span className="material-symbols-outlined" onClick={handleCopyContent}> {iconState} </span>
       </div>
-  
+
       <div className="concatenated-box" ref={convosRef}>
         <textarea
           className="interact-text"
@@ -397,7 +410,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       </div>
     </div>
   );
-  
+
 
 }
 
