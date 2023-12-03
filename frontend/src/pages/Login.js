@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <div className="login">
       <div className="login-image">
-        <img src="/gradwax.jpg" alt="background" />
+        <img src="/landscape.png" alt="background" />
       </div>
       <div className="login-content">
         <h1>WELCOME TO PERGI!</h1>
