@@ -118,13 +118,20 @@ const updateTemplate = async (req, res) => {
 // get all public templates
 const getPublicTemplates = async (req, res) => {
   try {
-    // Find all templates where public is true
-    const publicTemplates = await Template.find({ public: true }).sort({createdAt: -1});
+    // Find all templates where public is true and specify fields to return
+    const publicTemplates = await Template.find({ public: true }, { 
+      title: 1, 
+      description: 1, 
+      template: 1, 
+      createdAt: 1,
+      _id: 0 // if you want to exclude the ID, you can set it to 0
+    }).sort({createdAt: -1});
     res.status(200).json(publicTemplates);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 
 
