@@ -51,6 +51,10 @@ const templateSchema = new Schema({
     type: [convoSchema],
     required: true
   },
+  public: {
+    type: Boolean,
+    required: true
+  },
   user_id: {
     type: String,
     required: true

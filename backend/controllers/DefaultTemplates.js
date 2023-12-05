@@ -1,100 +1,10 @@
 const defaultTemplates = [
   {
-    title: "Email Editing ",
-    description: "Make your emails sound more of professional",
-    image: "",
-    icon: "",
-    template: [
-      {
-        type: "header",
-        context: "Edit the below email to sound professional and with clarity:",
-      },
-      {
-        type: "textbox",
-        context: "Paste email here",
-      }
-    ]
-  },
-  {
-    title: "Cover Letter Editing",
-    description: "Edit your cover letter professionally.",
-    image: "",
-    icon: "",
-    template: [
-      {
-        type: "header",
-        context: "Below is my cover letter, and I want you to make it sound more concise and reword it so that I seem like an apt candidate for the job:",
-      },
-      {
-        type: "textbox",
-        context: "Cover letter here",
-      }
-    ]
-  },
-  {
-    title: "Explainer",
-    description: "Explains topics better",
-    image: "",
-    icon: "",
-    template: [
-      {
-        type: "header",
-        context: "Explain the following topic with analogies and examples:",
-      },
-      {
-        type: "textbox",
-        context: "Topic",
-      },
-      {
-        type: "selector",
-        context: [". Be concise", ". Explain thouroughly"],
-      }
-    ]
-  },
-  {
-    title: "Essay Improver",
-    description: "Edits your essays to sound better",
-    image: "",
-    icon: "",
-    template: [
-      {
-        type: "header",
-        context: "Below is an essay for one of my classes, and the topic/prompt is ",
-      },
-      {
-        type: "textbox",
-        context: "Topic/prompt",
-      },
-      {
-        type: "header",
-        context: "and this is my essay:",
-      },      {
-        type: "textbox",
-        context: "essay",
-      },
-      {
-        type: "header",
-        context: " I want you to edit the essay below with the following suggestions:",
-      },
-      {
-        type: "textbox",
-        context: "suggestions",
-      },
-      {
-        type: "header",
-        context: "Also do the following:",
-      },
-      {
-        type: "selector",
-        context: ["Be concise ", "Use sophisticated vocab", "Expand on the ideas more"],
-      }
-    ]
-  },
-  {
     title: "Pergi Tutorial",
     description: "This is how to use Pergi",
     image: "",
     icon: "",
+    public: false,
     template: [
       {
         type: "header",
@@ -112,8 +22,108 @@ const defaultTemplates = [
         type: "header",
         context: "Lastly click submit to send the full message to the AI",
       }
-    ]
-  }
+    ],
+  },
+  {
+    title: "Professional Email Editing",
+    description: "Edit your professional emails with ease.",
+    image: "",
+    icon: "",
+    public: false,
+    template: [
+      {
+        type: "header",
+        context: "Subject Line",
+      },
+      {
+        type: "textbox",
+        context: "Compose your email here...",
+      },
+      {
+        type: "textbox",
+        context: "Additional notes or instructions...",
+      },
+      {
+        type: "header",
+        context: "Review and Send",
+      },
+    ],
+  },
+  {
+    title: "Cover Letter Editing",
+    description: "Edit your cover letter professionally.",
+    image: "",
+    icon: "",
+    public: false,
+    template: [
+      {
+        type: "header",
+        context: "Job Title and Company",
+      },
+      {
+        type: "textbox",
+        context: "Compose your cover letter here...",
+      },
+      {
+        type: "textbox",
+        context: "Additional notes or instructions...",
+      },
+      {
+        type: "header",
+        context: "Review and Finalize",
+      },
+    ],
+  },
+  {
+    title: "Recipe Maker",
+    description: "Create your own recipes with ingredients.",
+    image: "",
+    icon: "",
+    public: false,
+    template: [
+      {
+        type: "header",
+        context: "Recipe Title",
+      },
+      {
+        type: "textbox",
+        context: "List of ingredients (separated by commas)",
+      },
+      {
+        type: "textbox",
+        context: "Step-by-step instructions...",
+      },
+      {
+        type: "header",
+        context: "Cooking Tips",
+      },
+    ],
+  },
+  {
+    title: "Explain Code Template",
+    description: "Describe code functionality and usage.",
+    image: "",
+    icon: "",
+    public: false,
+    template: [
+      {
+        type: "header",
+        context: "Code Title",
+      },
+      {
+        type: "textbox",
+        context: "Insert your code here...",
+      },
+      {
+        type: "textbox",
+        context: "Additional notes or instructions...",
+      },
+      {
+        type: "header",
+        context: "Explanation and Usage",
+      },
+    ],
+  },
 ];
 
 module.exports = defaultTemplates;

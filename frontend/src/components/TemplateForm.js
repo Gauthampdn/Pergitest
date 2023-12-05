@@ -52,7 +52,6 @@ const TemplateForm = () => {
       image,
       icon,
       template: templateItems,
-      user_id: user.id // Assuming user object has an id property
     };
 
     const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates`, {

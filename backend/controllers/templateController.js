@@ -36,7 +36,7 @@ const getTemplate = async (req, res) => {
 // create a new template
 
 const createTemplate = async (req, res) => {
-  const { title, description, image, icon, template, convos } = req.body;
+  const { title, description, image, icon, template } = req.body;
 
   let emptyFields = [];
 
@@ -60,8 +60,9 @@ const createTemplate = async (req, res) => {
       image,
       icon,
       template,
-      convos,
-      user_id
+      convos: [],
+      user_id,
+      public: false
     });
 
     res.status(200).json(newTemplate);
@@ -70,7 +71,6 @@ const createTemplate = async (req, res) => {
   }
 };
 
-module.exports = createTemplate;
 
 
 // delete a template
@@ -115,6 +115,19 @@ const updateTemplate = async (req, res) => {
 };
 
 
+// get all public templates
+const getPublicTemplates = async (req, res) => {
+  try {
+    // Find all templates where public is true
+    const publicTemplates = await Template.find({ public: true }).sort({createdAt: -1});
+    res.status(200).json(publicTemplates);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+
 
 
 module.exports = {
@@ -122,5 +135,6 @@ module.exports = {
   getTemplates,
   createTemplate,
   deleteTemplate,
-  updateTemplate
+  updateTemplate,
+  getPublicTemplates
 }

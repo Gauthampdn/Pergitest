@@ -7,7 +7,8 @@ const {
   getTemplate,
   getTemplates,
   deleteTemplate,
-  updateTemplate
+  updateTemplate,
+  getPublicTemplates
 
 } = require("../controllers/templateController")
 
@@ -29,6 +30,9 @@ router.delete("/:id", deleteTemplate)
 
 // UPDATE a template
 router.patch("/:id", updateTemplate)
+
+// to GET all PUBLIC templates
+router.get("/publics", getPublicTemplates)
 
 
 
