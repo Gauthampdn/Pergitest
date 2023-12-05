@@ -19,6 +19,9 @@ router.use(requireAuth) // requires authentication and then calls next. if no au
 // to GET all templates
 router.get("/", getTemplates)
 
+// to GET all PUBLIC templates
+router.get("/publics", getPublicTemplates)
+
 // to GET a single template
 router.get("/:id", getTemplate)
 
@@ -31,8 +34,7 @@ router.delete("/:id", deleteTemplate)
 // UPDATE a template
 router.patch("/:id", updateTemplate)
 
-// to GET all PUBLIC templates
-router.get("/publics", getPublicTemplates)
+
 
 
 
