@@ -5,6 +5,8 @@ import { useAuthContext } from "./hooks/useAuthContext"
 import Home from "./pages/Home"
 import Login from "./pages/Login";
 import Create from "./pages/Create";
+import Library from "./pages/Library";
+
 
 function App() {
 
@@ -28,6 +30,10 @@ function App() {
             <Route
             path="/create"
             element = {<Create/> }
+            />
+            <Route
+            path="/library"
+            element = {<Library/> }
             />
           </Routes>
         </div>

@@ -30,6 +30,7 @@
   /* the rest of your variables */
   --secondary: #4869ff;
   --error: #e7195a;
+  --good: #10c257;
   --offwhite: #f1f1f1;
   --white: #ffffff;
 }
@@ -79,6 +80,59 @@ body {
   overflow-y: auto; /* This will enable scrolling */
 }
 
+.gallerypad{
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 5px;
+  width: 25%;
+  background-color: var(--primary);
+  border-radius: 10px;
+  height: auto;
+  overflow-y: auto; /* This will enable scrolling */
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+
+.gallery {
+  display: flex;
+  flex: 1;
+  margin: 0px;
+  height: calc(100vh - 40px); 
+}
+
+.galleryheader{
+  font-size: 30px;
+  font-weight: 600;
+  color: white;
+  margin: 20px 20px 10px 20px;
+
+}
+
+.gallerypara{
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 0px 20px 0px 20px;
+
+}
+
+
+.gallery hr{
+  color: white;
+}
+
+.backbuttongallery{
+  color: white;
+  cursor: pointer;
+  margin: 0px 0px 0px 20px;
+  font-size: 10px;
+}
+
+.backbuttongallery:hover{
+  text-decoration: underline;
+}
+
 .centered-header {
   text-align: center;
   margin: 30px;
@@ -89,9 +143,9 @@ body {
 
 .centered-para {
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
-  margin: 20px;
+  margin: 15px 20px 0px 20px ;
   padding: 8px;
   border: 2px solid var(--offwhite);
   border-radius: 10px;
@@ -105,6 +159,7 @@ body {
   color: var(--primary);
   border: 2px solid var(--primary);
 }
+
 
 
 
@@ -127,18 +182,16 @@ body {
 
 .side-details h4 {
   margin: 0 0 0 0;
-  font-size: 0.8em;
+  font-size: 14px;
   color: var(--white);
 
 }
 
 .side-details p {
   margin: 0;
-  font-size: 0.6em;
+  font-size: 12px;
   color: var(--white);
 }
-
-
 
 .side-details:hover h4 {
   color: var(--primary);
@@ -146,6 +199,10 @@ body {
 
 .side-details:hover p {
   color: var(--primary);
+}
+
+.side-details h4 {
+  word-break: break-word;
 }
 
 
@@ -219,11 +276,6 @@ body {
   word-break: break-word;
 }
 
-.side-details h4 {
-  word-break: break-word;
-}
-
-
 label,
 textarea {
   display: block;
@@ -238,8 +290,10 @@ textarea {
   border-radius: 8px;
   box-sizing: border-box;
   font-family: "Poppins";
-  resize: none;
   /* This will prevent manual resizing */
+  overflow-y: hidden;
+  resize: none; /* Disable manual resizing */
+
 }
 
 /* Styling for textarea fields */
@@ -430,6 +484,14 @@ button:hover {
 
 }
 
+.emptypage {
+  height: 10%;      /* Adjust height as needed */
+  width: 30%;       /* Adjust width as needed */
+  position: absolute;
+  top: 30%;
+  left: 45%;
+  text-align: center; /* Centers the text horizontally */
+}
 
 
 button:disabled {
@@ -439,12 +501,14 @@ button:disabled {
 
 .backbutton{
   color: black;
-
+  cursor: pointer;
 }
 
 .backbutton:hover{
   color:  var(--primary);
 }
+
+
 
 /* Styling for links */
 a {
@@ -462,9 +526,6 @@ a:hover {
   color: #ffffff;
 }
 
-.backbutton{
-  color: black;
-}
 
 /* Styling for material symbols */
 .material-symbols-outlined {
@@ -549,6 +610,7 @@ td {
   padding: 8px 12px;
 }
 
+
 .full-create {
   display: flex;
   justify-content: space-between; /* Add some space between form and preview */
@@ -556,7 +618,7 @@ td {
   height: calc(100vh - 120px); 
 }
 
-form.create, .live-template-preview {
+.create, .live-template-preview {
   padding: 40px;
   background: #fff;
   flex: 1; /* It takes up the available space */
@@ -606,14 +668,6 @@ form.create, .live-template-preview {
   word-break: break-word;
 }
 
-.side-details h4 {
-  word-break: break-word;
-}
-
-
-
-
-
 .navbar {
   padding: 20px;
   display: flex;
@@ -630,6 +684,7 @@ form.create, .live-template-preview {
   display: flex;
   flex-direction: column; /* Stack welcome and name vertically */
   margin-left: 10px; /* Space between image and text */
+  font-size: 16px;
 }
 
 

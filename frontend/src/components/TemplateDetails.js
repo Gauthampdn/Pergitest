@@ -17,7 +17,7 @@ const openai = new OpenAI({
 
 
 const TemplateDetails = ({ template, onDeleted }) => {
-  const { dispatch } = useTemplatesContext();
+  const { templates, dispatch } = useTemplatesContext();
   const { user } = useAuthContext();
   const convosRef = useRef(null);
   const [manualScroll, setManualScroll] = useState(false);
@@ -30,8 +30,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
   const [isEditing, setIsEditing] = useState(false); // New state for editing mode
   const [editableTemplate, setEditableTemplate] = useState(template.template); // New state for editable template
   const [tempEditableTemplate, setTempEditableTemplate] = useState(template.template);
-
-
+  const [isPublic, setIsPublic] = useState(false); // New state for editing mode
 
   const handleDelete = async () => {
     if (!user) {
@@ -55,13 +54,13 @@ const TemplateDetails = ({ template, onDeleted }) => {
     setTempEditableTemplate(JSON.parse(JSON.stringify(editableTemplate)));
     setIsEditing(true);
   };
-  
+
   const handleCancelEdit = () => {
     // Reset editableTemplate to the state stored in tempEditableTemplate
     setEditableTemplate(JSON.parse(JSON.stringify(tempEditableTemplate)));
     setIsEditing(false);
   };
-  
+
   const handleSubmitEdit = async () => {
     setIsEditing(false); // Exit editing mode
     const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
@@ -81,6 +80,9 @@ const TemplateDetails = ({ template, onDeleted }) => {
       console.error("Failed to update template");
     }
   };
+
+
+
 
   const handleInteractKeyPress = async (e) => {
     if (isSubmitting) return; // prevent further actions if isSubmitting is true
@@ -118,8 +120,8 @@ const TemplateDetails = ({ template, onDeleted }) => {
   useEffect(() => {
     setEditableTemplate(template.template);
     setConvos(template.convos);
+    setIsPublic(template.public);
   }, [template]);
-
 
 
 
@@ -136,8 +138,6 @@ const TemplateDetails = ({ template, onDeleted }) => {
       return updatedTagsList;
     });
   };
-
-
 
   const concatenateText = () => {
     let concatenatedText = '';
@@ -179,7 +179,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4-1106-preview",
-      temperature: 0,
+      temperature: 1,
       messages: updatedConvos,
       stream: true,
     });
@@ -265,6 +265,29 @@ const TemplateDetails = ({ template, onDeleted }) => {
     setEditableTemplate(newTemplate);
   };
 
+  //DO NOT REMOVE THIS THIS IS A FEATURE THAT IS FOR LATER
+
+  // const handlePublic = async () => {
+
+  //   const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates/${template._id}`, {
+  //     credentials: 'include',
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ public: !isPublic })
+  //   });
+
+  //   if (response.ok) {
+  //     setIsPublic(!isPublic);
+  //     const updatedTemplate = await response.json();
+  //     console.log("updated:", updatedTemplate.title, ", to: ", updatedTemplate.public)
+  //     dispatch({ type: "UPDATE_TEMPLATE", payload: updatedTemplate });
+  //   } else {
+  //     console.error("Failed to update template's public status");
+  //   }
+  // };
+
 
   const handleResetConvo = async (e) => {
     console.log(process.env.REACT_APP_API_TRIAL)
@@ -299,8 +322,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
       <div className="template-full side-scrollable">
         <h1>{template.title}</h1>
         <h2>{template.description}</h2>
-        <p>{formatDistanceToNow(new Date(template.createdAt), { addSuffix: true })}</p>
-
+        <hr />
         {editableTemplate.map((item, index) => {
           switch (item.type) {
             case "header":
@@ -328,6 +350,8 @@ const TemplateDetails = ({ template, onDeleted }) => {
                         const newTemplate = [...editableTemplate];
                         newTemplate[index].context = e.target.value;
                         setEditableTemplate(newTemplate);
+                        adjustTextareaHeight(e.target); // Add this line
+
                       }}
                       className="editable-placeholder"
                     />
@@ -339,6 +363,7 @@ const TemplateDetails = ({ template, onDeleted }) => {
                         const newValues = [...textboxValues];
                         newValues[index] = e.target.value;
                         setTextboxValues(newValues);
+                        adjustTextareaHeight(e.target); // Add this line
                       }}
                     />
                   )}
@@ -373,7 +398,12 @@ const TemplateDetails = ({ template, onDeleted }) => {
         })}
 
         {!isEditing && (
-          <button onClick={handleSubmit}>Submit</button>
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting} // Disables button when isSubmitting is true
+          >
+            {isSubmitting ? 'Loading...' : 'Submit'} {/* Changes button text based on isSubmitting */}
+          </button>
         )}
 
         {isEditing ? (
@@ -390,6 +420,13 @@ const TemplateDetails = ({ template, onDeleted }) => {
         <span className="material-symbols-outlined" onClick={handleDelete}> delete </span>
         <span className="material-symbols-outlined" onClick={handleResetConvo}> refresh </span>
         <span className="material-symbols-outlined" onClick={handleCopyContent}> {iconState} </span>
+        {/* <span
+          className="material-symbols-outlined"
+          onClick={handlePublic}
+          style={{ color: isPublic ? 'var(--good)' : 'inherit' }} // Changes color based on isPublic
+        > public
+        </span> */}
+
       </div>
 
       <div className="concatenated-box" ref={convosRef}>

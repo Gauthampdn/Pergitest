@@ -7,7 +7,7 @@ const getTemplates = async (req, res) => {  // DONE
 
   const user_id = req.user.id
 
-  const templates = await Template.find({user_id}).sort({createdAt: -1})
+  const templates = await Template.find({user_id}).sort({updatedAt: -1})
 
   res.status(200).json(templates)
 }
@@ -118,21 +118,34 @@ const updateTemplate = async (req, res) => {
 // get all public templates
 const getPublicTemplates = async (req, res) => {
   try {
-    // Find all templates where public is true and specify fields to return
-    const publicTemplates = await Template.find({ public: true }, { 
-      title: 1, 
-      description: 1, 
-      template: 1, 
-      createdAt: 1,
-      _id: 0 // if you want to exclude the ID, you can set it to 0
-    }).sort({createdAt: -1});
+    const publicTemplates = await Template.aggregate([
+      { $match: { public: true } }, // Match documents where public is true
+      { $project: { // Define how the output documents should be projected
+        title: 1, 
+        description: 1, 
+        updatedAt: 1,
+        image: 1,
+        icon: 1,
+        _id: 0,
+        template: {
+          $map: { // Transform each element of the 'template' array
+            input: "$template",
+            as: "t",
+            in: { // Define the structure of the transformed elements
+              type: "$$t.type",
+              context: "$$t.context"
+              // Not including _id will exclude it
+            }
+          }
+        }
+      }}
+    ]).sort({ updatedAt: -1 }); // Sort the results by updatedAt in descending order
+
     res.status(200).json(publicTemplates);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
-
 
 
 

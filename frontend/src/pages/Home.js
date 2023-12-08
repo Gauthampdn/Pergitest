@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useTemplatesContext } from "../hooks/useTemplatesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+
 
 // components
 import TemplateDetails from "../components/TemplateDetails";
@@ -9,6 +11,8 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const { templates, dispatch } = useTemplatesContext();
   const { user } = useAuthContext();
   const [currTemplate, setCurrTemplate] = useState(null);
@@ -45,6 +49,10 @@ const Home = () => {
     console.log(template)
   };
 
+  const handleBackClick = () => {
+    navigate('/library');
+  };
+
   return (
     <div className="home">
       <div className="side side-scrollable">
@@ -52,9 +60,12 @@ const Home = () => {
           <h1 className="centered-header">Pergi</h1>
         </a>
         <a href="https://forms.gle/WcCG1oUesh9h2Him7" target="_blank" rel="noopener noreferrer">
-          <p className="centered-para">Send us feedback and issues ↗</p>
+          <p className="centered-para">Send us your feedback! ↗</p>
         </a>
+        <a onClick={handleBackClick}  className="centered-para">The Gallery... ↗</a>
 
+
+        <Navbar />
 
 
 
@@ -67,12 +78,11 @@ const Home = () => {
 
         ))}
 
-        <Navbar />
       </div>
 
       <div className="templates">
         {currTemplate && <TemplateDetails template={currTemplate} onDeleted={() => setCurrTemplate(null)} />}
-        {!currTemplate && <h1> select or create a template </h1>}
+        {!currTemplate && <h1 className="emptypage"> select or create a template </h1>}
 
       </div>
     </div>

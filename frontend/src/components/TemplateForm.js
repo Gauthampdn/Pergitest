@@ -51,7 +51,7 @@ const TemplateForm = () => {
       description,
       image,
       icon,
-      template: templateItems,
+      template: templateItems
     };
 
     const response = await fetch(`${process.env.REACT_APP_API_BACKEND}/api/templates`, {
@@ -116,12 +116,18 @@ const TemplateForm = () => {
     );
   };
 
+  const handleBackClick = () => {
+    navigate('/');
+  };
+
   return (
     <div className="full-create">
       <form className="create" onSubmit={handleSubmit}>
-        <a href="https://pergi.app" className="backbutton">
+        {/* <a href="https://pergi.app" className="backbutton">
           <h3>← Go Back</h3>
-        </a>
+        </a> */}
+        <a onClick={handleBackClick}  className="backbutton" >← Go Back</a>
+
 
 
         <h3>Add New Template</h3>

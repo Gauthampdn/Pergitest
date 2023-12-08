@@ -16,12 +16,11 @@ const requireAuth = require("../middleware/requireAuth")
 
 router.use(requireAuth) // requires authentication and then calls next. if no authentication then it throws an error
 
+// to GET all templates
+router.get("/", getTemplates)
 
 // to GET all PUBLIC templates
 router.get("/publics", getPublicTemplates)
-
-// to GET all templates
-router.get("/", getTemplates)
 
 // to GET a single template
 router.get("/:id", getTemplate)
@@ -34,10 +33,6 @@ router.delete("/:id", deleteTemplate)
 
 // UPDATE a template
 router.patch("/:id", updateTemplate)
-
-
-
-
 
 
 module.exports = router

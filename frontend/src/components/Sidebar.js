@@ -4,7 +4,7 @@ const Sidebar = ({ template, onClick }) => {
   return (
     <div className="side-details" onClick={onClick}>
       <h4>{template.title}</h4>
-      <p>used {formatDistanceToNow(new Date(template.createdAt), { addSuffix: true })}</p>
+      <p>used {formatDistanceToNow(new Date(template.updatedAt), { addSuffix: true })}</p>
     </div>
   );
 }

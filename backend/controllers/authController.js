@@ -73,7 +73,7 @@ passport.deserializeUser(async function (id, done) {
 const getAuth = passport.authenticate("google", { scope: ["email", "profile"] });
 
 const redirectGoogle = passport.authenticate("google", {
-  successRedirect: "https://pergi.app/login",
+  successRedirect: "https://pergi.app",
   failureRedirect: "/failedAuth",
 });
 
