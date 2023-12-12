@@ -59,9 +59,7 @@ const Home = () => {
         <Link to="/about">
           <h1 className="centered-header">Pergi</h1>
         </Link>
-        <a href="https://forms.gle/WcCG1oUesh9h2Him7" target="_blank" rel="noopener noreferrer">
-          <p className="centered-para">Send us your feedback! ↗</p>
-        </a>
+        <a onClick={handleBackClick} className="centered-para">The Gallery... ↗</a>
 
         <Navbar />
 
@@ -72,9 +70,6 @@ const Home = () => {
             onClick={() => handleTemplateClick(template)}
           />
         ))}
-
-        <a onClick={handleBackClick} className="centered-para">The Gallery... ↗</a>
-
 
       </div>
 

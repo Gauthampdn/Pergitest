@@ -9,10 +9,10 @@ const Cards = ({ projects }) => {
                   style={project.backgroundImage ? { backgroundImage: `url(${project.backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
               >
 
-                  {project.tags && (
-                      <div className="tags">
-                          {project.tags.map((tag, tagIndex) => (
-                              <span key={tagIndex} className="tag">{tag}</span>
+                  {project.badges && (
+                      <div className="badges">
+                          {project.badges.map((badge, badgeIndex) => (
+                              <span key={badgeIndex} className="badge">{badge}</span>
                           ))}
                       </div>
                   )}
@@ -27,6 +27,37 @@ const Cards = ({ projects }) => {
                           {project.linknote} ↗
                       </button>
                   )}
+
+                  {/* Conditional rendering of the download button */}
+                  {project.downloadPath && (
+                      <a className="button-link" href={project.downloadPath} download>
+                          Download
+                      </a>
+                  )}
+
+                  {project.socialLinks && (
+                      <div className="social-icons">
+                          {project.socialLinks.linkedin && (
+                              <a href={project.socialLinks.linkedin} target="_blank" rel="noopener noreferrer">
+                                  <i className="fa fa-linkedin"></i>
+                              </a>
+                          )}
+                          {project.socialLinks.github && (
+                              <a href={project.socialLinks.github} target="_blank" rel="noopener noreferrer">
+                                  <i className="fa fa-github"></i>
+                              </a>
+                          )}
+                          {project.socialLinks.website && (
+                              <a href={project.socialLinks.website} download>
+                                  <i className="fa fa-file"></i>
+                              </a>
+                          )}
+
+
+
+                      </div>
+                  )}
+
 
               </div>
           ))}
