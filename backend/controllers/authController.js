@@ -81,7 +81,7 @@ const logout = (req, res) => {
   req.logout(() => {
     req.session.destroy(() => {
       res.clearCookie('connect.sid');
-      res.redirect('https://pergi.app/login');
+      res.redirect('https://pergi.app/about');
     });
   });
 }

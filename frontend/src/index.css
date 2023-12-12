@@ -31,7 +31,7 @@
   --secondary: #4869ff;
   --error: #e7195a;
   --good: #10c257;
-  --offwhite: #f1f1f1;
+  --offwhite: #eee9e5;
   --white: #ffffff;
 }
 
@@ -39,6 +39,15 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  text-align: center;
+  font-size: 24px; /* Example font size */
 }
 
 
@@ -493,6 +502,11 @@ button:hover {
   text-align: center; /* Centers the text horizontally */
 }
 
+.login-gohome{
+  color: var(--color2);
+  padding-bottom: 20px;
+  cursor: pointer;
+}
 
 button:disabled {
   background-color: #ccc;
@@ -508,6 +522,13 @@ button:disabled {
   color:  var(--primary);
 }
 
+.concatenated-box a{
+  color: var(--color2);
+}
+
+.concatenated-box a:hover{
+  color: limegreen;
+}
 
 
 /* Styling for links */

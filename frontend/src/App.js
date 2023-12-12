@@ -6,6 +6,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login";
 import Create from "./pages/Create";
 import Library from "./pages/Library";
+import About from "./pages/About";
 
 
 function App() {
@@ -22,6 +23,10 @@ function App() {
             <Route
             path="/"
             element = {user ? <Home/> : <Navigate to= "/login" />}
+            />
+            <Route
+            path="about"
+            element = {<About/>}
             />
             <Route
             path="/login"
