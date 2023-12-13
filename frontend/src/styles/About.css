@@ -75,6 +75,12 @@ padding-bottom: 50px;
 padding-top: 50px;
 }
 
+.cards-section p{
+max-width: 400px;
+word-spacing: 1px;
+line-height: 1.2;
+}
+
 
 
 .about-paragraph {
@@ -328,31 +334,6 @@ padding-bottom: 50px;
 
 /* ... existing styles ... */
 
-h3 {
-  font-weight: 700;
-  font-size: 25px;
-  margin: 4px 0px 4px 0px; /* Remove margin */
-  padding: 0; /* Remove padding */
-}
-
-h4 {
-  font-weight: 600;
-  font-size: 14px;
-  margin: 3px 0px 3px 0px; /* Remove margin */
-  padding: 0; /* Remove padding */
-}
-
-p { /* Assuming p is used for descriptions */
-  font-weight: 400;
-  font-size: 15px; 
-
-}
-
-p, h3, h4 {
-  max-width: 400px;
-  word-spacing: 1px;
-  line-height: 1.4;
-}
 
 
 .footer {
