@@ -54,7 +54,7 @@ const Home = () => {
       try {
         const completion = await openai.chat.completions.create({
           model: 'gpt-4-1106-preview',
-          temperature: 1,
+          temperature: 0,
           messages: updatedConvos.map(c => ({ role: c.role, content: c.content })),
           stream: true
         });
