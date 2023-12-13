@@ -3,7 +3,7 @@ import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 
-const Navbar = () => {
+const Navbar = ({ resetTemplate }) => {
 
   const { logout } = useLogout()
   const { user } = useAuthContext()
@@ -36,7 +36,9 @@ const Navbar = () => {
           {user && (
             <div className="buttons-container">
               <button onClick={handleClick}>Logout</button>
-              <button onClick={handleCreateClick}>CREATE!!!</button>
+              <button onClick={handleCreateClick}>Create</button>
+              <button onClick={resetTemplate}>Chat</button>
+
             </div>
           )}
           {!user && (

@@ -67,7 +67,7 @@ body {
 /* Layout */
 .home {
   display: flex;
-  flex: 1;
+  flex: 2;
   margin: 0px;
   gap: 20px;
   /* between components*/
@@ -78,7 +78,7 @@ body {
   display: grid;
   grid-auto-rows: min-content;
   gap: 5px;
-  width: 18%;
+  width: 20%;
   background-color: var(--primary);
   border-radius: 10px;
   height: auto;
@@ -218,9 +218,10 @@ body {
 
 .templates {
   display: flex;
-  width: 82%;
+  width: 80%;
   border-radius: 10px;
   height: auto;
+  justify-content: center;
 }
 
 .template-container {
@@ -229,10 +230,9 @@ body {
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
+  height: calc(100vh - 80px);
 
 }
-
-
 
 .template-full {
   flex: 1;
@@ -573,8 +573,39 @@ a:hover {
 }
 
 
+.fulltempdeets{
+  width: 100%;
+}
 
+.conversation-container {
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+}
 
+.chattext {
+  width: 58%;
+  position: fixed;
+  bottom: 10px; /* Adjust as needed for spacing from the bottom */
+  left: 30%;
+  overflow-y: hidden;
+  resize: none;
+}
+
+.convosstart{
+  width: 60%;
+  
+  padding-bottom: 20px;
+  padding-right: 50px;
+  margin-left: 18%;
+  margin-bottom: 20px;
+  overflow-y: auto;
+  max-height: calc(100% - 100px); /* Adjust the height */
+}
+
+.user{
+  font-weight: 700;
+}
 
 /* Styling for markdown content */
 .ReactMarkdown {
@@ -729,7 +760,7 @@ nav .user-image {
 
 nav button {
   flex: 1; /* Buttons take up equal space */
-  margin-right: 10px; /* Space between buttons */
+  margin: 0px 3px; /* Space between buttons */
   font-size: 14px;
   font-weight: 600;
 }
